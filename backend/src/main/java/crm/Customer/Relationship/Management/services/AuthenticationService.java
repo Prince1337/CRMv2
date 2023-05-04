@@ -1,7 +1,9 @@
-package crm.Customer.Relationship.Management.auth;
+package crm.Customer.Relationship.Management.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import crm.Customer.Relationship.Management.config.JwtService;
+import crm.Customer.Relationship.Management.auth.AuthenticationRequest;
+import crm.Customer.Relationship.Management.auth.AuthenticationResponse;
+import crm.Customer.Relationship.Management.auth.RegisterRequest;
 import crm.Customer.Relationship.Management.domain.Role;
 import crm.Customer.Relationship.Management.domain.Token;
 import crm.Customer.Relationship.Management.domain.TokenType;
@@ -11,6 +13,7 @@ import crm.Customer.Relationship.Management.repositories.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -71,6 +74,8 @@ public class AuthenticationService {
                 .build();
     }
 
+
+
     private void saveUserToken(User user, String jwtToken) {
         var token = Token.builder()
                 .user(user)
@@ -121,4 +126,13 @@ public class AuthenticationService {
         }
     }
 
+    public User updateUser(Long id, RegisterRequest request) {
+        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found with id " + id));
+        user.setUsername(request.getUsername());
+        user.setPassword(request.getPassword());
+        user.setFirstname(request.getFirstname());
+        user.setLastname(request.getLastname());
+        user.setEmail(request.getEmail());
+        return userRepository.save(user);
+    }
 }

@@ -1,6 +1,7 @@
 package crm.Customer.Relationship.Management.config;
 
 import crm.Customer.Relationship.Management.repositories.TokenRepository;
+import crm.Customer.Relationship.Management.services.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

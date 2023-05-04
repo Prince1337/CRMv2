@@ -1,4 +1,4 @@
-package crm.Customer.Relationship.Management.config;
+package crm.Customer.Relationship.Management.services;
 
 import crm.Customer.Relationship.Management.repositories.TokenRepository;
 import jakarta.servlet.http.HttpServletRequest;

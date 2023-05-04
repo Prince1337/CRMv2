@@ -1,4 +1,4 @@
-package crm.Customer.Relationship.Management.config;
+package crm.Customer.Relationship.Management.services;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

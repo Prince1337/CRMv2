@@ -1,5 +1,9 @@
-package crm.Customer.Relationship.Management.auth;
+package crm.Customer.Relationship.Management.apis;
 
+import crm.Customer.Relationship.Management.auth.AuthenticationRequest;
+import crm.Customer.Relationship.Management.auth.AuthenticationResponse;
+import crm.Customer.Relationship.Management.services.AuthenticationService;
+import crm.Customer.Relationship.Management.auth.RegisterRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +29,11 @@ public class AuthenticationController {
             @RequestBody AuthenticationRequest request
     ) {
         return ResponseEntity.ok(authenticationService.authenticate(request));
+    }
+
+    @PutMapping("/user/{id}")
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody RegisterRequest request) {
+        return ResponseEntity.ok(authenticationService.updateUser(id, request));
     }
 
     @PostMapping("/refresh-token")
