@@ -40,6 +40,9 @@ public class User implements UserDetails {
     @Column(name = "email", nullable = false, length = 50)
     private String email;
 
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, mappedBy = "user")
+    private List<Client> clients;
+
     @Column(name = "enabled", nullable = false)
     private boolean enabled = true;
 

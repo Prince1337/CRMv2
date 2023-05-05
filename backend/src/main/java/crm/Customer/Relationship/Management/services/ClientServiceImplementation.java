@@ -1,22 +1,27 @@
 package crm.Customer.Relationship.Management.services;
 
 import crm.Customer.Relationship.Management.domain.Client;
-import crm.Customer.Relationship.Management.domain.Client;
+import crm.Customer.Relationship.Management.domain.User;
+import crm.Customer.Relationship.Management.dto.ClientRequest;
+import crm.Customer.Relationship.Management.dto.ClientResponse;
 import crm.Customer.Relationship.Management.exceptions.ClientNotFoundException;
 import crm.Customer.Relationship.Management.repositories.ClientRepository;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import crm.Customer.Relationship.Management.repositories.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ClientServiceImplementation implements ClientService {
 
     private final ClientRepository clientRepository;
-
-    public ClientServiceImplementation(ClientRepository clientRepository) {
-        this.clientRepository = clientRepository;
-    }
+    private final UserRepository userRepository;
 
     @Override
     public List<Client> getAllClients() {
@@ -30,15 +35,44 @@ public class ClientServiceImplementation implements ClientService {
     }
 
     @Override
-    public Client createClient(Client client) {
-        return clientRepository.save(client);
+    public ClientResponse createClient(ClientRequest clientRequest) {
+        Client client = Client.builder()
+                .firstName(clientRequest.getFirstName())
+                .lastName(clientRequest.getLastName())
+                .address(clientRequest.getAddress())
+                .contactPerson(clientRequest.getContactPerson())
+                .user(userRepository.findUserById(clientRequest.getUserId()))
+                .build();
+        client.setCreated(new Date());
+        client = clientRepository.save(client);
+        return ClientResponse.builder()
+                .id(client.getId())
+                .firstName(client.getFirstName())
+                .lastName(client.getLastName())
+                .created(client.getCreated())
+                .address(client.getAddress())
+                .contactPerson(client.getContactPerson())
+                .username(userRepository.findUserById(client.getUser().getId()).getUsername())
+                .build();
     }
 
     @Override
-    public Client updateClient(Long id, Client client) {
-        getClientById(id); // check if client exists
-        client.setId(id); // set id of updated client
-        return clientRepository.save(client);
+    public ClientResponse updateClient(Long id, ClientRequest clientRequest) {
+        Client client = getClientById(id);
+        client.setFirstName(clientRequest.getFirstName());
+        client.setLastName(clientRequest.getLastName());
+        client.setAddress(clientRequest.getAddress());
+        client.setContactPerson(clientRequest.getContactPerson());
+//        client.setUser(userRepository.findUserById(clientRequest.getUserId()));
+        client = clientRepository.save(client);
+        return ClientResponse.builder()
+                .id(client.getId())
+                .firstName(client.getFirstName())
+                .lastName(client.getLastName())
+                .address(client.getAddress())
+                .contactPerson(client.getContactPerson())
+//                .userId(client.getUser().getId())
+                .build();
     }
 
     @Override
@@ -46,5 +80,11 @@ public class ClientServiceImplementation implements ClientService {
         getClientById(id); // check if client exists
         clientRepository.deleteById(id);
     }
+
+    @Override
+    public List<Client> searchClientsByCity(String city) {
+        return clientRepository.findByAddressCity(city);
+    }
+
 }
 

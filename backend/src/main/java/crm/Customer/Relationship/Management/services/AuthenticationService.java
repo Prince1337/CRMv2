@@ -1,9 +1,9 @@
 package crm.Customer.Relationship.Management.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import crm.Customer.Relationship.Management.auth.AuthenticationRequest;
-import crm.Customer.Relationship.Management.auth.AuthenticationResponse;
-import crm.Customer.Relationship.Management.auth.RegisterRequest;
+import crm.Customer.Relationship.Management.dto.AuthenticationRequest;
+import crm.Customer.Relationship.Management.dto.AuthenticationResponse;
+import crm.Customer.Relationship.Management.dto.RegisterRequest;
 import crm.Customer.Relationship.Management.domain.Role;
 import crm.Customer.Relationship.Management.domain.Token;
 import crm.Customer.Relationship.Management.domain.TokenType;
@@ -62,8 +62,7 @@ public class AuthenticationService {
                         request.getPassword()
                 )
         );
-        var user = userRepository.findByUsername(request.getUsername())
-                .orElseThrow();
+        var user = userRepository.findByUsername(request.getUsername());
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
         revokeAllUserTokens(user);
@@ -111,8 +110,7 @@ public class AuthenticationService {
         refreshToken = authHeader.substring(7);
         username = jwtService.extractUsername(refreshToken);
         if (username != null) {
-            var user = this.userRepository.findByUsername(username)
-                    .orElseThrow();
+            var user = this.userRepository.findByUsername(username);
             if (jwtService.isTokenValid(refreshToken, user)) {
                 var accessToken = jwtService.generateToken(user);
                 revokeAllUserTokens(user);

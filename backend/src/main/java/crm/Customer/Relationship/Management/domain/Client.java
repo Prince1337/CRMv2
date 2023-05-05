@@ -3,16 +3,19 @@ package crm.Customer.Relationship.Management.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @Table(name = "clients")
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
 public class Client {
 
     @Id
@@ -23,7 +26,8 @@ public class Client {
 
     private String lastName;
 
-    private LocalDateTime created;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date created;
 
     @OneToOne(cascade = CascadeType.ALL, optional = true)
     private Address address;

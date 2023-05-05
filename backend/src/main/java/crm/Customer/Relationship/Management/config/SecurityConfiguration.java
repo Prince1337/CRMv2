@@ -29,8 +29,6 @@ public class SecurityConfiguration {
                 .cors()
                 .and()
                 .authorizeHttpRequests()
-                    .requestMatchers("/register").hasRole("ADMIN")
-                .requestMatchers("/auth/user/**").hasRole("ADMIN")
                 .requestMatchers("/auth/**").permitAll()
                     .requestMatchers("/actuator/**").permitAll()
                     .anyRequest()

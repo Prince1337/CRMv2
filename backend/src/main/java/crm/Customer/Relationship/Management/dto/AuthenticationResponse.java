@@ -1,4 +1,4 @@
-package crm.Customer.Relationship.Management.auth;
+package crm.Customer.Relationship.Management.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package crm.Customer.Relationship.Management.auth;
+package crm.Customer.Relationship.Management.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationRequest {
+public class RegisterRequest {
 
     private String username;
-    String password;
+    private String firstname;
+    private String lastname;
+    private String email;
+    private String password;
 
 }

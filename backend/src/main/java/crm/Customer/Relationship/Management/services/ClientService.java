@@ -1,6 +1,9 @@
 package crm.Customer.Relationship.Management.services;
 
 import crm.Customer.Relationship.Management.domain.Client;
+import crm.Customer.Relationship.Management.domain.User;
+import crm.Customer.Relationship.Management.dto.ClientRequest;
+import crm.Customer.Relationship.Management.dto.ClientResponse;
 
 import java.util.List;
 
@@ -10,11 +13,14 @@ public interface ClientService {
 
     Client getClientById(Long id);
 
-    Client createClient(Client client);
+    ClientResponse createClient(ClientRequest client);
 
-    Client updateClient(Long id, Client client);
+    ClientResponse updateClient(Long id, ClientRequest client);
 
     void deleteClient(Long id);
+
+    List<Client> searchClientsByCity(String city);
+
 
 }
 
