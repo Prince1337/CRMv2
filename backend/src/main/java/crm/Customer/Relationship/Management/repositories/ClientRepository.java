@@ -11,6 +11,14 @@ import java.util.List;
 @RepositoryRestResource
 public interface ClientRepository extends JpaRepository<Client, Long> {
     List<Client> findByAddressCity(String city);
+    List<Client> findByUserUsername (String username);
 
+    List<Client> findByLastNameContainingIgnoreCaseAndAddressCityOrderByLastNameAsc(String name, String currentUserCity);
+
+    List<Client> findByAddressCityContainingIgnoreCaseOrderByLastNameAsc(String city);
+
+    List<Client> findByAddressRegionOrderByLastNameAsc(String region);
+
+    List<Client> findByLastNameContainingIgnoreCaseOrderByLastNameAsc(String name);
 }
 

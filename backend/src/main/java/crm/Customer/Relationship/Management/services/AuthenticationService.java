@@ -8,6 +8,8 @@ import crm.Customer.Relationship.Management.domain.Role;
 import crm.Customer.Relationship.Management.domain.Token;
 import crm.Customer.Relationship.Management.domain.TokenType;
 import crm.Customer.Relationship.Management.domain.User;
+import crm.Customer.Relationship.Management.repositories.OfficeRepository;
+import crm.Customer.Relationship.Management.repositories.RoleRepository;
 import crm.Customer.Relationship.Management.repositories.TokenRepository;
 import crm.Customer.Relationship.Management.repositories.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,26 +23,33 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
     private final UserRepository userRepository;
 
+    private final OfficeRepository officeRepository;
+
     private final TokenRepository tokenRepository;
+
+    private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(RegisterRequest request) {
-        var user = User.builder()
+        User user = User.builder()
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())
                 .username(request.getUsername())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .enabled(true)
-                .role(Role.EMPLOYEE)
+                .roles(roleRepository.getRolesByNameIsIn(request.getRoles()))
+                .office(officeRepository.getOfficeById(request.getOffice()))
                 .build();
         user = userRepository.save(user);
 

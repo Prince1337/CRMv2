@@ -5,12 +5,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.minidev.json.annotate.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -46,12 +49,18 @@ public class User implements UserDetails {
     @Column(name = "enabled", nullable = false)
     private boolean enabled = true;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @JoinTable
+    private Set<Role> roles;
+
+    @ManyToOne
+    @JoinColumn(name = "office_id")
+    @JsonIgnore
+    private Office office;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).toList();
     }
 
     @Override
@@ -73,4 +82,5 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }

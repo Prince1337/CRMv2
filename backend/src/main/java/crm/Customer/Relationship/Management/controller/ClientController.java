@@ -1,9 +1,10 @@
-package crm.Customer.Relationship.Management.apis;
+package crm.Customer.Relationship.Management.controller;
 
 import crm.Customer.Relationship.Management.domain.Client;
 import crm.Customer.Relationship.Management.dto.ClientRequest;
 import crm.Customer.Relationship.Management.dto.ClientResponse;
 import crm.Customer.Relationship.Management.services.ClientService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,19 +14,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/clients")
+@RequiredArgsConstructor
 public class ClientController {
 
     private final ClientService clientService;
 
-    public ClientController(ClientService clientService) {
-        this.clientService = clientService;
-    }
-
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
-    public ResponseEntity<List<Client>> getAllClients() {
-        List<Client> clients = clientService.getAllClients();
-        return new ResponseEntity<>(clients, HttpStatus.OK);
+    public ResponseEntity<List<ClientResponse>> getAllClients() {
+        return  ResponseEntity.ok(clientService.getAllClients());
     }
 
     @GetMapping("/{id}")
@@ -52,9 +49,6 @@ public class ClientController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/search")
-    public List<Client> searchClientsByCity(@RequestParam("city") String city) {
-        return clientService.searchClientsByCity(city);
-    }
+
 }
 

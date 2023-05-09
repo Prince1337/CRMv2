@@ -1,6 +1,7 @@
 package crm.Customer.Relationship.Management.config;
 
 import crm.Customer.Relationship.Management.repositories.UserRepository;
+import crm.Customer.Relationship.Management.services.MyUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,17 +18,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class ApplicationConfig {
 
-    private final UserRepository userRepository;
-
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return userRepository::findByUsername;
-    }
+    private final MyUserDetailsService myUserDetailsService;
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService());
+        authProvider.setUserDetailsService(myUserDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }

@@ -1,4 +1,4 @@
-package crm.Customer.Relationship.Management.apis;
+package crm.Customer.Relationship.Management.controller;
 
 import crm.Customer.Relationship.Management.dto.AuthenticationRequest;
 import crm.Customer.Relationship.Management.dto.AuthenticationResponse;
@@ -19,8 +19,7 @@ import java.io.IOException;
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/register")
+    @PostMapping("/admin/register")
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody RegisterRequest request
     ) {

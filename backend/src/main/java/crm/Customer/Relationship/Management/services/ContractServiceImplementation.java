@@ -4,8 +4,10 @@ import crm.Customer.Relationship.Management.domain.Client;
 import crm.Customer.Relationship.Management.domain.Contract;
 import crm.Customer.Relationship.Management.domain.Role;
 import crm.Customer.Relationship.Management.domain.User;
+import crm.Customer.Relationship.Management.dto.ContractResponse;
 import crm.Customer.Relationship.Management.dto.GenerateContractRequest;
 import crm.Customer.Relationship.Management.repositories.ContractRepository;
+import crm.Customer.Relationship.Management.repositories.RoleRepository;
 import crm.Customer.Relationship.Management.repositories.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +30,10 @@ public class ContractServiceImplementation implements ContractService {
 
     private final UserRepository userRepository;
 
+    private final RoleRepository roleRepository;
+
     @Override
-    public Contract generateContract(GenerateContractRequest request, String currentUsername) {
+    public ContractResponse generateContract(GenerateContractRequest request, String currentUsername) {
         Client client = clientService.getClientById(request.getClientId());
         User author = userRepository.findByUsername(currentUsername);
         Contract contract = Contract.builder()
@@ -41,8 +45,20 @@ public class ContractServiceImplementation implements ContractService {
                 .client(client)
                 .value(request.getValue())
                 .build();
+        contract = contractRepository.save(contract);
 
-        return contractRepository.save(contract);
+
+        return ContractResponse.builder()
+                .id(contract.getId())
+                .title(contract.getTitle())
+                .filename(contract.getFilename())
+                .created(contract.getCreated())
+                .accepted(contract.isAccepted())
+                .authorName(contract.getAuthor().getFirstname() + " " + contract.getAuthor().getLastname())
+                .clientName(client.getFirstName() + " " + client.getLastName())
+                .value(contract.getValue())
+                .build();
+
     }
 
     @Override
@@ -50,15 +66,15 @@ public class ContractServiceImplementation implements ContractService {
         Contract contract = contractRepository.findById(contractId)
                 .orElseThrow(() -> new EntityNotFoundException("Contract not found"));
         User currentUser = userRepository.findByUsername(currentUsername);
-        if (currentUser.getRole().equals(Role.ADMIN)) {
+        if (currentUser.getRoles().contains(roleRepository.getRoleByName("ADMIN"))) {
             contract.setAccepted(true);
             contract.setAcceptedBy(currentUser);
             contractRepository.save(contract);
-        } else if (currentUser.getRole().equals(Role.MANAGER) && contract.getValue() <= 10000) {
+        } else if (currentUser.getRoles().contains(roleRepository.getRoleByName("MANAGER")) && contract.getValue() <= 10000) {
             contract.setAccepted(true);
             contract.setAcceptedBy(currentUser);
             contractRepository.save(contract);
-        } else if (currentUser.getRole().equals(Role.EMPLOYEE) && contract.getValue() <= 1000) {
+        } else if (currentUser.getRoles().contains(roleRepository.getRoleByName("EMPLOYEE")) && contract.getValue() <= 1000) {
             contract.setAccepted(true);
             contract.setAcceptedBy(currentUser);
             contractRepository.save(contract);

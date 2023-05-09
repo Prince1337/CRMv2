@@ -2,47 +2,43 @@ package crm.Customer.Relationship.Management.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.minidev.json.annotate.JsonIgnore;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Entity
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Contract {
+public class Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private String type;
+
     private String title;
 
-    private String filename;
-
-    private LocalDateTime created;
-
-    private boolean accepted;
-
     @ManyToOne
-    @JoinColumn(name = "author_id")
-    @JsonIgnore
-    private User author;
-
-    @ManyToOne
-    @JoinColumn(name = "acceptedBy_id")
-    @JsonIgnore
-    private User acceptedBy;
-
-    @ManyToOne
-    @JoinColumn(name = "client")
+    @JoinColumn(name = "client_id")
     @JsonIgnore
     private Client client;
 
-    private Double value;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    private User user;
+
+    private LocalDateTime time;
+
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "event",fetch=FetchType.EAGER)
+    private List<Notification> notifications;
+
+
 
 }

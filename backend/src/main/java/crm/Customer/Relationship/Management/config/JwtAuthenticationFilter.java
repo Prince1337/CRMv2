@@ -1,5 +1,6 @@
 package crm.Customer.Relationship.Management.config;
 
+import crm.Customer.Relationship.Management.repositories.RoleRepository;
 import crm.Customer.Relationship.Management.repositories.TokenRepository;
 import crm.Customer.Relationship.Management.services.JwtService;
 import jakarta.servlet.FilterChain;
@@ -28,12 +29,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final TokenRepository tokenRepository;
 
+    private final RoleRepository roleRepository;
+
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
+        System.out.println("ok1");
         if (request.getServletPath().contains("/auth")) {
             filterChain.doFilter(request, response);
             return;
         }
+        System.out.println("ok2");
 
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
@@ -45,6 +50,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         jwt = authHeader.substring(7);
 
         username = jwtService.extractUsername(jwt);
+        System.out.println(username);
+        System.out.println(userDetailsService.loadUserByUsername(username).getAuthorities());
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);

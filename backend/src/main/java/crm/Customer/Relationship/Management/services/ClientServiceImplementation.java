@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -24,8 +25,23 @@ public class ClientServiceImplementation implements ClientService {
     private final UserRepository userRepository;
 
     @Override
-    public List<Client> getAllClients() {
-        return clientRepository.findAll();
+    public List<ClientResponse> getAllClients() {
+
+        List<Client> clients = clientRepository.findAll();
+        List<ClientResponse> clientsResponse = new ArrayList<>();
+        for (Client client : clients) {
+            clientsResponse.add(ClientResponse.builder()
+                    .id(client.getId())
+                    .firstName(client.getFirstName())
+                    .lastName(client.getLastName())
+                    .created(client.getCreated())
+                    .address(client.getAddress())
+                    .contactPerson(client.getContactPerson())
+                    .username(userRepository.findUserById(client.getUser().getId()).getUsername())
+                    .build());
+        }
+
+        return clientsResponse;
     }
 
     @Override
@@ -63,7 +79,7 @@ public class ClientServiceImplementation implements ClientService {
         client.setLastName(clientRequest.getLastName());
         client.setAddress(clientRequest.getAddress());
         client.setContactPerson(clientRequest.getContactPerson());
-//        client.setUser(userRepository.findUserById(clientRequest.getUserId()));
+        client.setUser(userRepository.findUserById(clientRequest.getUserId()));
         client = clientRepository.save(client);
         return ClientResponse.builder()
                 .id(client.getId())
@@ -71,7 +87,7 @@ public class ClientServiceImplementation implements ClientService {
                 .lastName(client.getLastName())
                 .address(client.getAddress())
                 .contactPerson(client.getContactPerson())
-//                .userId(client.getUser().getId())
+                .username(userRepository.findUserById(client.getUser().getId()).getUsername())
                 .build();
     }
 
@@ -85,6 +101,32 @@ public class ClientServiceImplementation implements ClientService {
     public List<Client> searchClientsByCity(String city) {
         return clientRepository.findByAddressCity(city);
     }
+
+    @Override
+    public List<Client> findByUser(String currentUsername) {
+        return clientRepository.findByUserUsername(currentUsername);
+    }
+
+    @Override
+    public List<Client> findByClientNameAndCity(String name, String currentUserCity) {
+        return clientRepository.findByLastNameContainingIgnoreCaseAndAddressCityOrderByLastNameAsc(name, currentUserCity);
+    }
+
+    @Override
+    public List<Client> findByAddressCity(String city) {
+        return clientRepository.findByAddressCityContainingIgnoreCaseOrderByLastNameAsc(city);
+    }
+
+    @Override
+    public List<Client> findByAddressRegion(String region) {
+        return clientRepository.findByAddressRegionOrderByLastNameAsc(region);
+    }
+
+    @Override
+    public List<Client> findByName(String name) {
+        return clientRepository.findByLastNameContainingIgnoreCaseOrderByLastNameAsc(name);
+    }
+
 
 }
 
