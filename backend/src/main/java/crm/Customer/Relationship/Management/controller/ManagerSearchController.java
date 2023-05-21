@@ -1,14 +1,10 @@
 package crm.Customer.Relationship.Management.controller;
 
 import crm.Customer.Relationship.Management.AuthenticationFacade;
-import crm.Customer.Relationship.Management.domain.Client;
 import crm.Customer.Relationship.Management.domain.User;
 import crm.Customer.Relationship.Management.dto.ClientResponse;
-import crm.Customer.Relationship.Management.repositories.ClientRepository;
 import crm.Customer.Relationship.Management.services.ClientService;
-import crm.Customer.Relationship.Management.services.MyUserDetailsService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,38 +13,40 @@ import java.util.List;
 @RestController
 @RequestMapping("/managerSearch")
 @RequiredArgsConstructor
+@CrossOrigin(originPatterns = "http://localhost:4200")
 public class ManagerSearchController {
 
     private final AuthenticationFacade authenticationFacade;
     private final ClientService clientService;
-    private List<Client> clientList;
+    private List<ClientResponse> clientResponses;
 
     // ALL CLIENTS SEARCH
     @GetMapping("/all")
     public ResponseEntity<List<ClientResponse>> allSearch() {
-        return ResponseEntity.ok(clientService.getAllClients());
+        List<ClientResponse> clientResponses = clientService.getAllClients();
+        return ResponseEntity.ok(clientResponses);
     }
 
     // CITY SEARCH
     @GetMapping(path = "/city")
-    public ResponseEntity<List<Client>> citySearch(@RequestParam String city) {
-        clientList = clientService.findByAddressCity(city);
-        return ResponseEntity.ok(clientList);
+    public ResponseEntity<List<ClientResponse>> citySearch(@RequestParam String city) {
+        clientResponses = clientService.findByAddressCity(city);
+        return ResponseEntity.ok(clientResponses);
     }
 
     // MANAGER REGION SEARCH
     @GetMapping(path = "/region")
-    public String citySearch() {
+    public ResponseEntity<List<ClientResponse>> regionSearch(@RequestParam String region) {
         User user = authenticationFacade.getAuthenticatedUser();
-        clientList = clientService
+        clientResponses = clientService
                 .findByAddressRegion(user.getOffice().getAddress().getRegion());
-        return "manager/search";
+        return ResponseEntity.ok(clientResponses);
     }
 
     // NAME SEARCH
     @GetMapping(path = "/name")
-    public ResponseEntity<List<Client>> nameSearch(@RequestParam String name) {
-        clientList = clientService.findByName(name);
-        return ResponseEntity.ok(clientList);
+    public ResponseEntity<List<ClientResponse>> nameSearch(@RequestParam String name) {
+        clientResponses = clientService.findByName(name);
+        return ResponseEntity.ok(clientResponses);
     }
 }

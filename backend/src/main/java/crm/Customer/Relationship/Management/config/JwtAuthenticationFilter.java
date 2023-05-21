@@ -29,7 +29,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final TokenRepository tokenRepository;
 
-    private final RoleRepository roleRepository;
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
@@ -41,6 +40,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         System.out.println("ok2");
 
         final String authHeader = request.getHeader("Authorization");
+        System.out.println("authHeader " + authHeader);
         final String jwt;
         final String username;
         if (authHeader == null ||!authHeader.startsWith("Bearer ")) {

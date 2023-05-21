@@ -1,6 +1,5 @@
 package crm.Customer.Relationship.Management.dto;
 
-import crm.Customer.Relationship.Management.domain.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +19,6 @@ public class RegisterRequest {
     private String email;
     private String password;
     private Set<String> roles;
-    private long office;
+    private long officeId;
 
 }

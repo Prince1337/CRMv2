@@ -1,5 +1,6 @@
 package crm.Customer.Relationship.Management.controller;
 
+import crm.Customer.Relationship.Management.domain.User;
 import crm.Customer.Relationship.Management.dto.AuthenticationRequest;
 import crm.Customer.Relationship.Management.dto.AuthenticationResponse;
 import crm.Customer.Relationship.Management.services.AuthenticationService;
@@ -7,8 +8,8 @@ import crm.Customer.Relationship.Management.dto.RegisterRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -16,6 +17,7 @@ import java.io.IOException;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth")
+@CrossOrigin(originPatterns = "http://localhost:4200")
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
@@ -23,18 +25,31 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody RegisterRequest request
     ) {
-        return ResponseEntity.ok(authenticationService.register(request));
+        AuthenticationResponse authenticationResponse = authenticationService.register(request);
+        return ResponseEntity.ok(authenticationResponse);
     }
+
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest request
     ) {
-        return ResponseEntity.ok(authenticationService.authenticate(request));
+        AuthenticationResponse authenticationResponse = authenticationService.authenticate(request);
+        return ResponseEntity.ok(authenticationResponse);
     }
 
+    @PostMapping("/logout")
+    public HttpServletResponse logout(HttpServletRequest request, HttpServletResponse response) {
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            return response;
+        } else {
+            return null;
+        }
+    }
     @PutMapping("/user/{id}")
     public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody RegisterRequest request) {
-        return ResponseEntity.ok(authenticationService.updateUser(id, request));
+        User user = authenticationService.updateUser(id, request);
+        return ResponseEntity.ok(user);
     }
 
     @PostMapping("/refresh-token")

@@ -1,0 +1,33 @@
+header {
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+nav ul {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  list-style: none;
+}
+
+nav li {
+  margin: 0 16px;
+  position: relative;
+}
+
+nav a {
+  text-decoration: none;
+  color: #333333;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 24px;
+  display: block;
+  padding: 12px 0;
+  transition: color 0.2s ease-in-out;
+}
+
+nav a:hover {
+  color: #007aff;
+}

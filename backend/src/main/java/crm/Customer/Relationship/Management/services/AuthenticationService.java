@@ -4,10 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import crm.Customer.Relationship.Management.dto.AuthenticationRequest;
 import crm.Customer.Relationship.Management.dto.AuthenticationResponse;
 import crm.Customer.Relationship.Management.dto.RegisterRequest;
-import crm.Customer.Relationship.Management.domain.Role;
 import crm.Customer.Relationship.Management.domain.Token;
 import crm.Customer.Relationship.Management.domain.TokenType;
 import crm.Customer.Relationship.Management.domain.User;
+import crm.Customer.Relationship.Management.dto.RoleResponse;
 import crm.Customer.Relationship.Management.repositories.OfficeRepository;
 import crm.Customer.Relationship.Management.repositories.RoleRepository;
 import crm.Customer.Relationship.Management.repositories.TokenRepository;
@@ -19,12 +19,11 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -40,6 +39,8 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
+    private final UserDetailsServiceImplementation userDetailsServiceImplementation;
+
     public AuthenticationResponse register(RegisterRequest request) {
         User user = User.builder()
                 .firstname(request.getFirstname())
@@ -49,7 +50,7 @@ public class AuthenticationService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .enabled(true)
                 .roles(roleRepository.getRolesByNameIsIn(request.getRoles()))
-                .office(officeRepository.getOfficeById(request.getOffice()))
+                .office(officeRepository.getOfficeById(request.getOfficeId()))
                 .build();
         user = userRepository.save(user);
 
@@ -71,14 +72,25 @@ public class AuthenticationService {
                         request.getPassword()
                 )
         );
-        var user = userRepository.findByUsername(request.getUsername());
+        var user = userDetailsServiceImplementation.loadUserByUsername(request.getUsername());
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
-        revokeAllUserTokens(user);
-        saveUserToken(user, jwtToken);
+        revokeAllUserTokens((User) user);
+        saveUserToken((User) user, jwtToken);
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
+                .build();
+    }
+
+    public RoleResponse getRole(Authentication authentication) {
+        var username = authentication.getName();
+        var user = userDetailsServiceImplementation.loadUserByUsername(username);
+        String roleName = user.getAuthorities().toArray()[0].toString();
+        System.out.println(user.getAuthorities().toArray()[0].toString());
+        return RoleResponse.builder()
+                .id(roleRepository.findByName(roleName).getId())
+                .name(roleName)
                 .build();
     }
 

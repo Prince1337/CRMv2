@@ -14,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/clientResource")
 @RequiredArgsConstructor
+@CrossOrigin(originPatterns = "http://localhost:4200")
 public class ClientResource {
 
     private final ClientService clientService;
@@ -39,15 +40,8 @@ public class ClientResource {
 
     @PostMapping("/{username}")
     ResponseEntity<ClientResponse> createClient(@PathVariable String username, @RequestBody ClientRequest request) {
-        request.setUserId(userRepository.findByUsername(username).getId());
+        request.setUsername(userRepository.findByUsername(username).getUsername());
         return ResponseEntity.ok(clientService.createClient(request));
-    }
-
-    @PutMapping("/{username}")
-    ResponseEntity<?> updateUser(@PathVariable String username, @RequestBody ClientRequest request) {
-        request.setUserId(userRepository.findByUsername(username).getId());
-        clientService.createClient(request);
-        return ResponseEntity.accepted().build();
     }
 
 }

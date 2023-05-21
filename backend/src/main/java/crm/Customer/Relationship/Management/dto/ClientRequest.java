@@ -17,11 +17,19 @@ public class ClientRequest {
 
     private String lastName;
 
-    private Address address;
+    private String street;
 
-    private ContactPerson contactPerson;
+    private String postcode;
 
-    private Long userId;
+    private String city;
+
+    private String region;
+
+    private String country;
+
+    private String contactEmail;
+
+    private String username;
 
 }
 

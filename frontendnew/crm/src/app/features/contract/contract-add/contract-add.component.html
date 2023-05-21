@@ -1,0 +1,12 @@
+<form [formGroup]="contractForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="clientId">Client ID:</label>
+      <input type="number" id="clientId" formControlName="clientId">
+    </div>
+    <div>
+      <label for="value">Value:</label>
+      <input type="number" id="value" formControlName="value">
+    </div>
+    <button type="submit">Vertrag erstellen</button>
+  </form>
+  

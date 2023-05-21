@@ -21,6 +21,7 @@ import java.nio.file.AccessDeniedException;
 @RestController
 @RequestMapping("/events")
 @RequiredArgsConstructor
+@CrossOrigin(originPatterns = "http://localhost:4200")
 public class EventController {
 
     private final EventServiceImplementation eventService;
@@ -29,7 +30,6 @@ public class EventController {
     @PostMapping
     public ResponseEntity<EventResponse> addEvent(@RequestBody EventRequest eventRequest) {
         String currentUsername = authenticationFacade.getAuthenticatedUser().getUsername();
-
         return ResponseEntity.ok(eventService.addEvent(eventRequest, currentUsername));
     }
 

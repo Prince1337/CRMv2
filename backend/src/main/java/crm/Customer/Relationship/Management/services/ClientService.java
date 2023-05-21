@@ -12,22 +12,24 @@ public interface ClientService {
 
     Client getClientById(Long id);
 
+    ClientResponse getClient(Long id);
+
     ClientResponse createClient(ClientRequest client);
 
     ClientResponse updateClient(Long id, ClientRequest client);
 
     void deleteClient(Long id);
 
-    List<Client> searchClientsByCity(String city);
+    List<ClientResponse> searchClientsByCity(String city);
     
-    List<Client> findByUser(String currentUsername);
+    List<ClientResponse> findByUser(String currentUsername);
 
-    List<Client> findByClientNameAndCity(String name, String currentUserCity);
+    List<ClientResponse> findByClientNameAndCity(String name, String currentUserCity);
 
-    List<Client> findByAddressCity(String city);
+    List<ClientResponse> findByAddressCity(String city);
 
-    List<Client> findByAddressRegion(String region);
+    List<ClientResponse> findByAddressRegion(String region);
 
-    List<Client> findByName(String name);
+    List<ClientResponse> findByName(String name);
 }
 

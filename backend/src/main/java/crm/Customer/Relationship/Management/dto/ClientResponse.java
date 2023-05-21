@@ -1,14 +1,10 @@
 package crm.Customer.Relationship.Management.dto;
 
-import crm.Customer.Relationship.Management.domain.Address;
-import crm.Customer.Relationship.Management.domain.ContactPerson;
-import crm.Customer.Relationship.Management.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -24,9 +20,23 @@ public class ClientResponse {
 
     private Date created;
 
-    private Address address;
+    private String street;
 
-    private ContactPerson contactPerson;
+    private String postcode;
+
+    private String city;
+
+    private String region;
+
+    private String country;
+
+    private String contactFirstname;
+
+    private String contactLastname;
+
+    private String contactEmail;
+
+    private String contactPhone;
 
     private String username;
 }

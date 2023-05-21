@@ -20,5 +20,7 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     List<Client> findByAddressRegionOrderByLastNameAsc(String region);
 
     List<Client> findByLastNameContainingIgnoreCaseOrderByLastNameAsc(String name);
+
+    List<Client> findClientsByUserId(Long id);
 }
 

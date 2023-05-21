@@ -1,13 +1,15 @@
 package crm.Customer.Relationship.Management.services;
 
-import crm.Customer.Relationship.Management.domain.Contract;
 import crm.Customer.Relationship.Management.dto.ContractResponse;
-import crm.Customer.Relationship.Management.dto.GenerateContractRequest;
+import crm.Customer.Relationship.Management.dto.ContractRequest;
 
 import java.nio.file.AccessDeniedException;
+import java.util.List;
 
 public interface ContractService {
-    ContractResponse generateContract(GenerateContractRequest request, String currentUsername);
+    ContractResponse generateContract(ContractRequest request, String currentUsername);
 
     void acceptContract(Long contractId, String currentUsername) throws AccessDeniedException;
+
+    List<ContractResponse> getAllContracts(String currentUsername);
 }

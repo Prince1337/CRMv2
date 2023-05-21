@@ -1,13 +1,11 @@
 package crm.Customer.Relationship.Management.controller;
 
-import crm.Customer.Relationship.Management.domain.Client;
 import crm.Customer.Relationship.Management.dto.ClientRequest;
 import crm.Customer.Relationship.Management.dto.ClientResponse;
 import crm.Customer.Relationship.Management.services.ClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,32 +13,33 @@ import java.util.List;
 @RestController
 @RequestMapping("/clients")
 @RequiredArgsConstructor
+@CrossOrigin(originPatterns = "http://localhost:4200")
 public class ClientController {
 
     private final ClientService clientService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public ResponseEntity<List<ClientResponse>> getAllClients() {
-        return  ResponseEntity.ok(clientService.getAllClients());
+        List<ClientResponse> clientResponses = clientService.getAllClients();
+        return ResponseEntity.ok(clientResponses);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Client> getClientById(@PathVariable Long id) {
-        Client client = clientService.getClientById(id);
-        return new ResponseEntity<>(client, HttpStatus.OK);
+    public ResponseEntity<ClientResponse> getClientById(@PathVariable Long id) {
+        ClientResponse clientResponse = clientService.getClient(id);
+        return ResponseEntity.ok(clientResponse);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<ClientResponse> createClient(@RequestBody ClientRequest request) {
-        return ResponseEntity.ok(clientService.createClient(request));
+        ClientResponse clientResponse = clientService.createClient(request);
+        return ResponseEntity.ok(clientResponse);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<ClientResponse> updateClient(@PathVariable Long id, @RequestBody ClientRequest request) {
-        return ResponseEntity.ok(clientService.updateClient(id, request));
+        ClientResponse clientResponse = clientService.updateClient(id, request);
+        return ResponseEntity.ok(clientResponse);
     }
 
     @DeleteMapping("/{id}")
