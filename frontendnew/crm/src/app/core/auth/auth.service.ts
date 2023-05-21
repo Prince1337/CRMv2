@@ -42,6 +42,7 @@ export class AuthenticationService {
     this.http.post(this.authUrl + '/logout', {}).subscribe(() => {
       // Optional: Führe hier weitere Aktionen nach dem erfolgreichen Logout aus
       localStorage.removeItem('access_token');
+      localStorage.removeItem('refresh_token');
       console.log('Logout erfolgreich');
     }, (error) => {
       console.error('Logout fehlgeschlagen', error.message);

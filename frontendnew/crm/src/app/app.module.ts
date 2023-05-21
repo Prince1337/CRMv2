@@ -28,6 +28,8 @@ import { ClientEditComponent } from './features/client/client-edit/client-edit.c
 import { AdminListComponent } from './features/admin/admin-list/admin-list.component';
 import { ContractAddComponent } from './features/contract/contract-add/contract-add.component';
 import { ContractListComponent } from './features/contract/contract-list/contract-list.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -52,7 +54,9 @@ import { ContractListComponent } from './features/contract/contract-list/contrac
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    RouterModule,
     HttpClientModule,
+    HttpClientTestingModule,
     MatSnackBarModule,
     MatButtonModule,
     MatInputModule,
