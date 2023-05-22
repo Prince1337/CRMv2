@@ -5,17 +5,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './features/login/login.component';
 import { HttpClientModule } from '@angular/common/http';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import {MatCardModule} from '@angular/material/card';
-import {MatIconModule} from '@angular/material/icon';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
-import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatListModule} from '@angular/material/list';
-import {MatToolbarModule} from '@angular/material/toolbar';
 import { AdminDashboardComponent } from './features/dashboards/admin-dashboard/admin-dashboard.component';
 
 import { ClientListComponent } from './features/client/client-list/client-list.component';
@@ -28,8 +20,6 @@ import { ClientEditComponent } from './features/client/client-edit/client-edit.c
 import { AdminListComponent } from './features/admin/admin-list/admin-list.component';
 import { ContractAddComponent } from './features/contract/contract-add/contract-add.component';
 import { ContractListComponent } from './features/contract/contract-list/contract-list.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -54,19 +44,8 @@ import { RouterModule } from '@angular/router';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    RouterModule,
     HttpClientModule,
-    HttpClientTestingModule,
-    MatSnackBarModule,
-    MatButtonModule,
-    MatInputModule,
-    MatCardModule,
-    MatIconModule,
-    MatSidenavModule,
-    MatListModule,
-    MatToolbarModule,
     ReactiveFormsModule
-
   ],
   providers: [],
   bootstrap: [AppComponent]
