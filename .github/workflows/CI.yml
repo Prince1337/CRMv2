@@ -34,17 +34,17 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd frontend/crm-project
+          cd frontendnew/crm
           npm install
 
       - name: Run tests
         run: |
-          cd frontend/crm-project
+          cd frontendnew/crm
           npm test
 
       - name: Build
         run: |
-          cd frontend/crm-project
+          cd frontendnew/crm
           npm run build
 
       - name: Build and start containers

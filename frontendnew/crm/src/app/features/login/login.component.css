@@ -1,0 +1,82 @@
+.container-fluid {
+    height: 100vh;
+    }
+    
+    .row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    }
+    
+    .mat-card {
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    background-color: #fff;
+    }
+    
+    h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 2rem;
+    }
+    
+    form {
+    display: flex;
+    flex-direction: column;
+    }
+    
+    .mat-form-field {
+    margin-bottom: 2rem;
+    }
+    
+    .mat-label {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+    }
+    
+    input {
+    font-size: 1.2rem;
+    color: #555;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    background-color: #f5f5f5;
+    }
+    
+    button {
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 0.5rem;
+    padding: 1rem 2rem;
+    background-color: #0074d9;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    }
+    
+    button:hover {
+    background-color: #0050a5;
+    }
+    
+    mat-icon {
+    font-size: 2rem;
+    color: #555;
+    cursor: pointer;
+    transition: all 0.3s;
+    }
+    
+    mat-icon:hover {
+    color: #0074d9;
+    }
+    
+    @media only screen and (max-width: 768px) {
+    .mat-card {
+    width: 100%;
+    max-width: 500px;
+    }
+    }

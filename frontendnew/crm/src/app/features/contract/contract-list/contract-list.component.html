@@ -1,0 +1,14 @@
+<ul>
+    <li *ngFor="let contract of contracts">
+      {{ contract.id }}
+      {{ contract.title }}
+      {{ contract.filename }}
+      {{ contract.created | date }}
+      {{ contract.accepted }}
+      {{ contract.authorName }}
+      {{ contract.clientName }}
+      {{ contract.value }}
+      <button (click)="acceptContract()">Accept Contract</button>
+    </li>
+  </ul>
+  
