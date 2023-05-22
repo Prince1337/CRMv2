@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthenticationService } from 'src/app/core/auth/auth.service';
 
 @Component({
   selector: 'app-owner-dashboard',
@@ -6,5 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./owner-dashboard.component.css']
 })
 export class OwnerDashboardComponent {
+
+  constructor(public authService: AuthenticationService) { }
 
 }

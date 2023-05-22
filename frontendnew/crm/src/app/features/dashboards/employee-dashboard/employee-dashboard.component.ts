@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthenticationService } from 'src/app/core/auth/auth.service';
 
 @Component({
   selector: 'app-employee-dashboard',
@@ -6,5 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./employee-dashboard.component.css']
 })
 export class EmployeeDashboardComponent {
+  
+  constructor(public authService: AuthenticationService) { }
 
 }

@@ -1,3 +1,1 @@
-<div class="col-md-2 d-none d-md-block column" *ngIf="authService.isLoggedIn">
-    <app-navbar></app-navbar>
-</div>
+<app-navbar *ngIf="authService.isLoggedIn"></app-navbar>
