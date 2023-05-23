@@ -30,6 +30,5 @@ export class ClientListComponent {
         this.clients = this.clients.filter(client => client.id !== clientId);
      });
   }
-
 }
 

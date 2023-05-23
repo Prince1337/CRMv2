@@ -91,6 +91,13 @@ public class ContractServiceImplementation implements ContractService {
         return contractResponses;
     }
 
+    @Override
+    public ContractResponse getContractById(Long contractId, String currentUsername) {
+        Contract contract = contractRepository.findById(contractId)
+                .orElseThrow(() -> new EntityNotFoundException("Contract not found"));
+        return entityToResponse(contract);
+    }
+
     private ContractResponse entityToResponse(Contract contract) {
         return ContractResponse.builder()
                 .id(contract.getId())

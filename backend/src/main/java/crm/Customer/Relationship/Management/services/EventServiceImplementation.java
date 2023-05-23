@@ -57,6 +57,10 @@ public class EventServiceImplementation implements EventService {
         if (!event.getUser().equals(userRepository.findByUsername(currentUsername))) {
             throw new AccessDeniedException("You don't have permission to edit this event");
         }
+        return requestToEntity(eventRequest, event);
+    }
+
+    private EventResponse requestToEntity(EventRequest eventRequest, Event event) {
         Client client = clientService.getClientById(eventRequest.getClientId());
         event.setType(eventRequest.getType());
         event.setTitle(eventRequest.getTitle());
@@ -138,6 +142,35 @@ public class EventServiceImplementation implements EventService {
         }
     }
 
+    @Override
+    public List<EventResponse> getAllEvents(String currentUsername) {
+        List<Event> events = eventRepository.findAllByUser(userRepository.findByUsername(currentUsername));
+        return entityToResponse(events);
+    }
+
+    private List<EventResponse> entityToResponse(List<Event> events) {
+        List<EventResponse> eventResponses = new ArrayList<>();
+        for (Event event : events) {
+            eventResponses.add(EventResponse.builder()
+                    .title(event.getTitle())
+                    .type(event.getType())
+                    .time(event.getTime())
+                    .build());
+        }
+        return eventResponses;
+    }
+
+    @Override
+    public EventResponse getEventById(Long eventId, String currentUsername) {
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new EntityNotFoundException("Event not found"));
+        return EventResponse.builder()
+                .title(event.getTitle())
+                .type(event.getType())
+                .time(event.getTime())
+                .build();
+    }
+
     private void generateNotification(Event event) {
         Notification notification = new Notification();
         notification.setCreated(LocalDateTime.now());
@@ -146,7 +179,7 @@ public class EventServiceImplementation implements EventService {
         notification.setUser(event.getUser());
         notification.setContent(
                 "You have " + event.getType() + " with " + event.getClient().getUser().getUsername() + " at " + event.getTime()
-                        + ". Topic: " + event.getTitle());
+                        + ". Title: " + event.getTitle());
         notificationRepository.save(notification);
     }
 

@@ -13,6 +13,8 @@ import { ClientEditComponent } from './features/client/client-edit/client-edit.c
 import { AdminListComponent } from './features/admin/admin-list/admin-list.component';
 import { ContractAddComponent } from './features/contract/contract-add/contract-add.component';
 import { ContractListComponent } from './features/contract/contract-list/contract-list.component';
+import { ManagerSearchComponent } from './features/search/manager-search/manager-search.component';
+import { EmployeeSearchComponent } from './features/search/employee-search/employee-search.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -70,6 +72,16 @@ const routes: Routes = [
   {
     path: 'contracts',
     component: ContractListComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'manager/search',
+    component: ManagerSearchComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'employee/search',
+    component: EmployeeSearchComponent,
     canActivate: [AuthGuard],
   },
   { path: '**', redirectTo: 'dashboard' }, // wenn eine ungültige URL aufgerufen wird

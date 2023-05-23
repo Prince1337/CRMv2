@@ -46,7 +46,7 @@ public class ManagerSearchController {
     // NAME SEARCH
     @GetMapping(path = "/name")
     public ResponseEntity<List<ClientResponse>> nameSearch(@RequestParam String name) {
-        clientResponses = clientService.findByName(name);
+        clientResponses = clientService.findByLastName(name);
         return ResponseEntity.ok(clientResponses);
     }
 }

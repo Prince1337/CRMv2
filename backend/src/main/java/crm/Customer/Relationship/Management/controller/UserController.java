@@ -30,10 +30,15 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+    @PutMapping("/admin/user/{id}")
+    public User updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
+        updatedUser.setId(id);
+        return userDetailsService.updateUser(updatedUser);
+    }
+
     @GetMapping("/admin/users")
     public ResponseEntity<List<UserResponse>> getUser() {
         List<UserResponse> userResponses = userDetailsService.getUsers();
-        System.out.println(userResponses);
         return ResponseEntity.ok(userResponses);
 
     }

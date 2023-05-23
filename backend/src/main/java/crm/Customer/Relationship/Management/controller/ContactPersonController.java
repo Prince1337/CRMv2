@@ -20,7 +20,8 @@ public class ContactPersonController {
 
     @GetMapping
     public List<String> findAllEmails() {
-        System.out.println("-----------------------------------"+contactPersonService.findAllEmails());
         return contactPersonService.findAllEmails();
     }
+
+
 }

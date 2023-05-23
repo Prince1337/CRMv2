@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 public class UserDetailsServiceImplementation implements UserDetailsService {
 
     private final UserRepository userRepository;
-    private final ClientRepository clientRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -33,6 +32,21 @@ public class UserDetailsServiceImplementation implements UserDetailsService {
             throw new UsernameNotFoundException("User not found");
         }
         return user;
+    }
+
+    public User updateUser(User updatedUser) {
+        User existingUser = userRepository.findById(updatedUser.getId())
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        existingUser.setUsername(updatedUser.getUsername());
+        existingUser.setFirstname(updatedUser.getFirstname());
+        existingUser.setLastname(updatedUser.getLastname());
+        existingUser.setPassword(updatedUser.getPassword());
+        existingUser.setEmail(updatedUser.getEmail());
+        existingUser.setRoles(updatedUser.getRoles());
+        // Weitere aktualisierte Eigenschaften hinzufügen
+
+        return userRepository.save(existingUser);
     }
 
     public List<String> getAllUsernames() {

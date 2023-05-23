@@ -30,6 +30,6 @@ public interface ClientService {
 
     List<ClientResponse> findByAddressRegion(String region);
 
-    List<ClientResponse> findByName(String name);
+    List<ClientResponse> findByLastName(String name);
 }
 

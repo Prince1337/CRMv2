@@ -1,10 +1,10 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
   <div class="collapse navbar-collapse">
   <ul>
-    <li *ngIf="userRole === 'ADMIN'"><a routerLink="/users">User</a></li>
-    <li *ngIf="userRole === 'ADMIN'"><a routerLink="/clients">Clients</a></li>
+    <li *ngIf="userRole === 'ADMIN' || userRole === 'OWNER'"><a routerLink="/users">User</a></li>
+    <li *ngIf="userRole === 'ADMIN' || userRole === 'OWNER'"><a routerLink="/clients">Clients</a></li>
     <li><a routerLink="/contracts">Contracts</a></li>
-    <li *ngIf="userRole === 'MANAGER' || userRole === 'EMPLOYEE'"><a routerLink="/search">Search</a></li>
+    <li *ngIf="userRole === 'MANAGER' || userRole === 'EMPLOYEE'"><a (click)="goToSearch()">Search</a></li>
     <li><a routerLink="/events">Events</a></li>
   </ul>
   </div>

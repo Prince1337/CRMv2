@@ -81,7 +81,7 @@ public class ClientServiceImplementation implements ClientService {
     @Override
     public List<ClientResponse> searchClientsByCity(String city) {
 
-        List<Client> clients = clientRepository.findByAddressCity(city);
+        List<Client> clients = clientRepository.findByAddressCityContainingIgnoreCaseOrderByLastNameAsc(city);
         return entitiesToResponses(clients);
     }
 
@@ -105,13 +105,13 @@ public class ClientServiceImplementation implements ClientService {
 
     @Override
     public List<ClientResponse> findByAddressRegion(String region) {
-        List<Client> clients =  clientRepository.findByAddressRegionOrderByLastNameAsc(region);
+        List<Client> clients =  clientRepository.findByAddressRegionContainingIgnoreCaseOrderByLastNameAsc(region);
         return entitiesToResponses(clients);
     }
 
     @Override
-    public List<ClientResponse> findByName(String name) {
-        List<Client> clients =  clientRepository.findByLastNameContainingIgnoreCaseOrderByLastNameAsc(name);
+    public List<ClientResponse> findByLastName(String lastName) {
+        List<Client> clients =  clientRepository.findByLastNameContainingIgnoreCaseOrderByLastNameAsc(lastName);
         return entitiesToResponses(clients);
     }
 
