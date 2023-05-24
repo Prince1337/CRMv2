@@ -14,4 +14,6 @@ public interface ContractService {
     List<ContractResponse> getAllContracts(String currentUsername);
 
     ContractResponse getContractById(Long contractId, String currentUsername);
+
+    List<ContractResponse> getAllContracts();
 }

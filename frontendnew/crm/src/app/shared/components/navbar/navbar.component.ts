@@ -28,6 +28,7 @@ export class NavbarComponent implements OnInit {
 
   goToSearch() {
     this.userRole = this.authService.userRole;
+    console.log(this.userRole);
     if (this.userRole === 'MANAGER') {
       this.router.navigate(['/manager/search']);
     } else if (this.userRole === 'EMPLOYEE') {

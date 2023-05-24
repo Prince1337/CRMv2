@@ -9,4 +9,5 @@ import java.util.List;
 @RepositoryRestResource
 public interface ContractRepository extends JpaRepository<Contract, Long> {
     List<Contract> findByAuthorUsername(String currentUsername);
+
 }

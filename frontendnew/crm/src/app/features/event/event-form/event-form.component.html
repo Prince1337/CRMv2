@@ -1,0 +1,26 @@
+<form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="typeInput">Type:</label>
+      <input type="text" id="typeInput" formControlName="type" required>
+    </div>
+  
+    <div>
+      <label for="titleInput">Title:</label>
+      <input type="text" id="titleInput" formControlName="title" required>
+    </div>
+  
+    <div>
+      <label for="clientIdInput">Client ID:</label>
+      <input type="text" id="clientIdInput" formControlName="clientId" required>
+    </div>
+  
+    <div>
+      <label for="timeInput">Time:</label>
+      <input type="datetime-local" id="timeInput" formControlName="time" required>
+    </div>
+  
+    <div>
+      <button type="submit">Add Event</button>
+    </div>
+  </form>
+  

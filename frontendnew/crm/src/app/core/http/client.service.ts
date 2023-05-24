@@ -10,6 +10,7 @@ import { ClientResponse } from 'src/app/shared/models/client-response';
 export class ClientService {
 
   private baseUrl = 'https://localhost:8443';
+  private searchUrl = 'https://localhost:8443/employeeSearch';
 
   constructor(private http: HttpClient) { }
 
@@ -40,7 +41,6 @@ export class ClientService {
   updateClient(id: number, request: ClientRequest): Observable<ClientResponse> {
     const url = `${this.baseUrl}/clients/${id}`;
     const headers = this.getAuthentication();
-    console.log(request);
 
     return this.http.put<ClientResponse>(url, request, { headers: headers });
   }
@@ -57,6 +57,48 @@ export class ClientService {
     const headers = this.getAuthentication();
 
     return this.http.delete<void>(url, { headers: headers });
+  }
+
+  getDefaultSearch(): Observable<ClientResponse[]> {
+    const url = `${this.searchUrl}`;
+    const headers = this.getAuthentication();
+
+    return this.http.get<ClientResponse[]>(url, { headers: headers });
+  }
+
+  searchByCity(city: string): Observable<ClientResponse[]> {
+    const url = `${this.searchUrl}/city?city=${city}`;
+    const headers = this.getAuthentication();
+
+    return this.http.get<ClientResponse[]>(url, { headers: headers });
+  }
+
+  managerGetAllClients(): Observable<ClientResponse[]> {
+    const url = `${this.baseUrl}/managerSearch/all`;
+    const headers = this.getAuthentication();
+
+    return this.http.get<ClientResponse[]>(url, { headers: headers });
+  }
+
+  managerSearchByCity(city: string): Observable<ClientResponse[]> {
+    const url = `${this.baseUrl}/managerSearch/city?city=${city}`;
+    const headers = this.getAuthentication();
+
+    return this.http.get<ClientResponse[]>(url, { headers: headers });
+  }
+
+  managerSearchByRegion(region: string): Observable<ClientResponse[]> {
+    const url = `${this.baseUrl}/managerSearch/region?region=${region}`;
+    const headers = this.getAuthentication();
+
+    return this.http.get<ClientResponse[]>(url, { headers: headers });
+  }
+
+  managerSearchByName(name: string): Observable<ClientResponse[]> {
+    const url = `${this.baseUrl}/managerSearch/name?name=${name}`;
+    const headers = this.getAuthentication();
+
+    return this.http.get<ClientResponse[]>(url, { headers: headers });
   }
 
   private getAuthentication() {

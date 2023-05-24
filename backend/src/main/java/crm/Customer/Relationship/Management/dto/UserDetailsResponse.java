@@ -13,10 +13,10 @@ import java.util.Set;
 @NoArgsConstructor
 public class UserDetailsResponse {
 
+    private Long id;
     private String username;
     private String firstname;
     private String lastname;
     private String email;
     private Set<String> roles;
-    private long officeId;
 }

@@ -26,7 +26,6 @@ export class AdminRegisterComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       role: ['', Validators.required],
-      office: [''] // Define your office selection here
     });
   }
 
@@ -42,7 +41,6 @@ export class AdminRegisterComponent implements OnInit {
     }
     
     console.log(registerData);
-
 
     this.authService.registerAdmin(registerData).subscribe(
       (response: AuthenticationResponse) => {

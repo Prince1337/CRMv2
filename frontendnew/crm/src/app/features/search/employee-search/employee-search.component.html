@@ -1,1 +1,27 @@
-<p>employee-search works!</p>
+<h2>Employee Search</h2>
+
+<div>
+  <label for="cityInput">Search by City:</label>
+  <input type="text" id="cityInput" [(ngModel)]="city">
+  <button (click)="searchByCity()">Search</button>
+  <button (click)="defaultSearch()">Reset</button>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>City</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let client of clients">
+      <td>{{ client.id }}</td>
+      <td>{{ client.firstName }}</td>
+      <td>{{ client.lastName }}</td>
+      <td>{{ client.city }}</td>
+    </tr>
+  </tbody>
+</table>

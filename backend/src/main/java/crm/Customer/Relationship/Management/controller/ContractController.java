@@ -34,6 +34,12 @@ public class ContractController {
         return ResponseEntity.ok(contractResponse);
     }
 
+    @GetMapping("/admin")
+    public ResponseEntity<List<ContractResponse>> getAllContractsAdmin() {
+        List<ContractResponse> contractResponse = contractService.getAllContracts();
+        return ResponseEntity.ok(contractResponse);
+    }
+
     @GetMapping("/{contractId}")
     public ResponseEntity<ContractResponse> getContractById(@PathVariable Long contractId) {
         String currentUsername = authenticationFacade.getAuthenticatedUser().getUsername();

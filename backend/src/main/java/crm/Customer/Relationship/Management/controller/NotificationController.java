@@ -18,10 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/notifications")
 public class NotificationController {
-
     private final NotificationService notificationService;
-
-    private final EventService eventService;
     private final AuthenticationFacade authenticationFacade;
 
     @GetMapping

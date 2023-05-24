@@ -79,9 +79,9 @@ public class ClientServiceImplementation implements ClientService {
     }
 
     @Override
-    public List<ClientResponse> searchClientsByCity(String city) {
+    public List<ClientResponse> searchClientsByCity(String city, String username) {
 
-        List<Client> clients = clientRepository.findByAddressCityContainingIgnoreCaseOrderByLastNameAsc(city);
+        List<Client> clients = clientRepository.findByAddressCityContainingAndUserUsernameContainingOrderByAddressCityAsc(city, username);
         return entitiesToResponses(clients);
     }
 

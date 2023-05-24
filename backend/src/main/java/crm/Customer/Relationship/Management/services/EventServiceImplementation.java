@@ -44,9 +44,12 @@ public class EventServiceImplementation implements EventService {
         event.setNotifications(new ArrayList<>());
         event = eventRepository.save(event);
         return EventResponse.builder()
+                .id(event.getId())
                 .title(event.getTitle())
                 .type(event.getType())
                 .time(event.getTime())
+                .clientName(event.getClient().getFirstName() + " " + event.getClient().getLastName())
+                .authorName(event.getUser().getFirstname() + " " + event.getUser().getLastname())
                 .build();
     }
 
@@ -68,9 +71,12 @@ public class EventServiceImplementation implements EventService {
         event.setTime(eventRequest.getTime());
         event = eventRepository.save(event);
         return EventResponse.builder()
+                .id(event.getId())
                 .title(event.getTitle())
                 .type(event.getType())
                 .time(event.getTime())
+                .clientName(event.getClient().getFirstName() + " " + event.getClient().getLastName())
+                .authorName(event.getUser().getFirstname() + " " + event.getUser().getLastname())
                 .build();
     }
 
@@ -152,9 +158,12 @@ public class EventServiceImplementation implements EventService {
         List<EventResponse> eventResponses = new ArrayList<>();
         for (Event event : events) {
             eventResponses.add(EventResponse.builder()
+                    .id(event.getId())
                     .title(event.getTitle())
                     .type(event.getType())
                     .time(event.getTime())
+                    .clientName(event.getClient().getFirstName() + " " + event.getClient().getLastName())
+                    .authorName(event.getUser().getFirstname() + " " + event.getUser().getLastname())
                     .build());
         }
         return eventResponses;
@@ -165,9 +174,12 @@ public class EventServiceImplementation implements EventService {
         Event event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new EntityNotFoundException("Event not found"));
         return EventResponse.builder()
+                .id(event.getId())
                 .title(event.getTitle())
                 .type(event.getType())
                 .time(event.getTime())
+                .clientName(event.getClient().getFirstName() + " " + event.getClient().getLastName())
+                .authorName(event.getUser().getFirstname() + " " + event.getUser().getLastname())
                 .build();
     }
 

@@ -8,7 +8,7 @@
       {{ contract.authorName }}
       {{ contract.clientName }}
       {{ contract.value }}
-      <button (click)="acceptContract()">Accept Contract</button>
+      <button (click)="acceptContract(contract.id)">Accept Contract</button>
     </li>
   </ul>
   

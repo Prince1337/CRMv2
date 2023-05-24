@@ -15,7 +15,7 @@ export class ClientListComponent {
   constructor(private clientService: ClientService, private router: Router) { }
 
   ngOnInit(): void {
-    this.clientService.getAllClients().subscribe(clients => {
+    this.clientService.managerGetAllClients().subscribe(clients => {
       console.log(clients);
       this.clients = clients;
     });

@@ -4,7 +4,7 @@ WORKDIR /app/backend
 
 COPY . /app
 
-RUN chmod +x ./gradlew && ./gradlew build && ./gradlew bootJar
+RUN chmod +x ./gradlew && 	./gradlew build && ./gradlew bootJar
 
 EXPOSE 8443
 

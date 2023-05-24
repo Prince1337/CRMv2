@@ -15,6 +15,11 @@ import { ContractAddComponent } from './features/contract/contract-add/contract-
 import { ContractListComponent } from './features/contract/contract-list/contract-list.component';
 import { ManagerSearchComponent } from './features/search/manager-search/manager-search.component';
 import { EmployeeSearchComponent } from './features/search/employee-search/employee-search.component';
+import { AdminDetailsComponent } from './features/admin/admin-details/admin-details.component';
+import { AdminEditComponent } from './features/admin/admin-edit/admin-edit.component';
+import { EventListComponent } from './features/event/event-list/event-list.component';
+import { EventFormComponent } from './features/event/event-form/event-form.component';
+import { EventEditComponent } from './features/event/event-edit/event-edit.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -56,7 +61,16 @@ const routes: Routes = [
   },
   {
     path: 'users/add',
-    component: AdminRegisterComponent,
+    component: AdminRegisterComponent
+  },
+  {
+    path: 'users/edit/:id',
+    component: AdminEditComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'users/details/:id',
+    component: AdminDetailsComponent,
     canActivate: [AuthGuard],
   },
   {
@@ -82,6 +96,21 @@ const routes: Routes = [
   {
     path: 'employee/search',
     component: EmployeeSearchComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'events',
+    component: EventListComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'events/add',
+    component: EventFormComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'events/:id',
+    component: EventEditComponent,
     canActivate: [AuthGuard],
   },
   { path: '**', redirectTo: 'dashboard' }, // wenn eine ungültige URL aufgerufen wird

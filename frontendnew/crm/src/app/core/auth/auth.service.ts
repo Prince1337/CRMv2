@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthenticationRequest } from 'src/app/shared/models/authentication-request';
+import { RegisterRequest } from 'src/app/shared/models/register-request';
 
 @Injectable({
   providedIn: 'root'
@@ -64,15 +65,6 @@ export class AuthenticationService {
 
 }
 
-interface RegisterRequest {
-  username: string;
-  firstName: string;
-  lastname: string;
-  email: string;
-  password: string;
-  roles: string[];
-  office: number;
-}
 
 interface AuthenticationResponse {
   access_token: string;

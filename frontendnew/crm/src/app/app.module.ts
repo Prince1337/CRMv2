@@ -22,6 +22,11 @@ import { ContractAddComponent } from './features/contract/contract-add/contract-
 import { ContractListComponent } from './features/contract/contract-list/contract-list.component';
 import { ManagerSearchComponent } from './features/search/manager-search/manager-search.component';
 import { EmployeeSearchComponent } from './features/search/employee-search/employee-search.component';
+import { AdminDetailsComponent } from './features/admin/admin-details/admin-details.component';
+import { AdminEditComponent } from './features/admin/admin-edit/admin-edit.component';
+import { EventFormComponent } from './features/event/event-form/event-form.component';
+import { EventListComponent } from './features/event/event-list/event-list.component';
+import { EventEditComponent } from './features/event/event-edit/event-edit.component';
 
 
 @NgModule({
@@ -42,7 +47,12 @@ import { EmployeeSearchComponent } from './features/search/employee-search/emplo
     ContractAddComponent,
     ContractListComponent,
     ManagerSearchComponent,
-    EmployeeSearchComponent
+    EmployeeSearchComponent,
+    AdminDetailsComponent,
+    AdminEditComponent,
+    EventFormComponent,
+    EventListComponent,
+    EventEditComponent
   ],
   imports: [
     BrowserModule,
