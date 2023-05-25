@@ -1,0 +1,5 @@
+<ul>
+    <li *ngFor="let notification of notifications" [ngClass]="{'notification-item': true, 'notification-item--read': notification.wasRead}">
+        <a (click)="markNotificationAsRead(notification.id)">{{notification.content}} "was read: " {{notification.wasRead}}</a>
+    </li>
+</ul>

@@ -20,6 +20,7 @@ import { AdminEditComponent } from './features/admin/admin-edit/admin-edit.compo
 import { EventListComponent } from './features/event/event-list/event-list.component';
 import { EventFormComponent } from './features/event/event-form/event-form.component';
 import { EventEditComponent } from './features/event/event-edit/event-edit.component';
+import { NotificationComponent } from './features/notifications/notification/notification.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -111,6 +112,11 @@ const routes: Routes = [
   {
     path: 'events/:id',
     component: EventEditComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'notifications',
+    component: NotificationComponent,
     canActivate: [AuthGuard],
   },
   { path: '**', redirectTo: 'dashboard' }, // wenn eine ungültige URL aufgerufen wird

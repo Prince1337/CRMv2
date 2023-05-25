@@ -40,10 +40,18 @@ export class EventService {
     return this.http.put<EventResponse>(url, eventRequest, { headers: headers });
   }
 
+  markNotificationAsRead(notificationId: number) {
+    const url = `${this.baseUrl}/notifications/${notificationId}/mark-read`;
+    const headers = this.getAuthentication();
+    return this.http.put(url, null, { headers: headers });
+  }
+
   private getAuthentication() {
     const token = localStorage.getItem('access_token');
     const headers = new HttpHeaders().set('Authorization', 'Bearer ' + token);
     return headers;
   }
+
+
 
 }

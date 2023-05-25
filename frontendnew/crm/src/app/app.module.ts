@@ -27,6 +27,7 @@ import { AdminEditComponent } from './features/admin/admin-edit/admin-edit.compo
 import { EventFormComponent } from './features/event/event-form/event-form.component';
 import { EventListComponent } from './features/event/event-list/event-list.component';
 import { EventEditComponent } from './features/event/event-edit/event-edit.component';
+import { NotificationComponent } from './features/notifications/notification/notification.component';
 
 
 @NgModule({
@@ -52,7 +53,8 @@ import { EventEditComponent } from './features/event/event-edit/event-edit.compo
     AdminEditComponent,
     EventFormComponent,
     EventListComponent,
-    EventEditComponent
+    EventEditComponent,
+    NotificationComponent
   ],
   imports: [
     BrowserModule,
