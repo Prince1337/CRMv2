@@ -50,4 +50,8 @@ export class ContractListComponent {
       });
   }
 
+  printContract(contractId: number): void {
+    
+  }
+
 }
