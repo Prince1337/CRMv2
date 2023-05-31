@@ -1,29 +1,4 @@
-.container {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    position: relative;
-    text-align: center;
-    display: block;
-    color: white;
-    text-decoration: none;
-    font-size: 16px;
-    line-height: 10px;
-    background-color: black;
-    box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.527);
-    border: #ccc 1px solid;
-    border-radius: 20px;
-    padding: 10px;
-    white-space: nowrap;
-    word-wrap: break-word;
-    margin-bottom: 20px;
-    opacity: calc(1 - 0.1);
-    box-sizing: border-box;
-    user-select: none;
-    pointer-events: all;
-    touch-action: manipulation;
-    overflow: hidden;
-  }
-  
-  h2 {
+h2 {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     position: relative;
     text-align: center;
@@ -43,19 +18,20 @@
     box-sizing: border-box;
     user-select: none;
     pointer-events: all;
-    touch-action: manipulation;
+    touch-action: auto;
     overflow: hidden;
   }
   
-  form {
+  div {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     position: relative;
-    text-align: left;
+    text-align: center;
     display: block;
     color: white;
     text-decoration: none;
     font-size: 16px;
     line-height: 10px;
+    letter-spacing: 1px;
     background-color: black;
     box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.527);
     border: #ccc 1px solid;
@@ -63,7 +39,6 @@
     padding: 10px;
     white-space: nowrap;
     word-wrap: break-word;
-    margin-bottom: 20px;
     opacity: calc(1 - 0.1);
     box-sizing: border-box;
     user-select: none;
@@ -72,32 +47,37 @@
     overflow: hidden;
   }
   
-  .form-group {
-    margin-bottom: 15px;
+  ul {
+    list-style: none;
+    padding-left: 0;
   }
   
-  label {
-    display: block;
-    margin-bottom: 5px;
-    line-height: 20px;
+  ul li {
+    margin-left: 20px;
   }
   
-  input[type="text"],
-  input[type="email"],
-  input[type="password"],
-  select {
-    width: 100%;
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    line-height: 30px;
+  div p:last-child {
+    margin-bottom: 0;
   }
   
-  select {
-    line-height: 30px;
+  div p strong {
+    font-weight: bold;
   }
   
-  button[type="submit"] {
+  div p strong::after {
+    content: ":";
+  }
+  
+  div ul li {
+    margin-left: 0;
+  }
+  
+  div ul li:before {
+    content: "-";
+    margin-right: 5px;
+  }
+  
+  button {
     background-color: #ccc;
     color: black;
     border: none;
@@ -107,7 +87,6 @@
     margin: 0 8px 8px 0;
   }
   
-  button[type="submit"]:hover {
+  button:hover {
     background-color: #999;
   }
-  

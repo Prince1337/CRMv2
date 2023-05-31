@@ -1,9 +1,16 @@
 <header>
-  <nav>
-    <ul>
-      <li><a (click)="goToDashboard()">Dashboard</a></li>
-      <li><a routerLink="/notifications">Notifications</a></li>
-      <li><a (click)="logout()">Logout</a></li>
-    </ul>
+  <nav class="navbar navbar-expand-lg navbar-light">
+      <a class="navbar-brand" (click)="goToDashboard()"></a>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" (click)="goToDashboard()">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/notifications">Notifications</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" (click)="logout()">Logout</a>
+        </li>
+      </ul>
   </nav>
 </header>

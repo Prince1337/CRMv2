@@ -12,31 +12,31 @@ import { RoleResponse } from '../../models/role-response';
 export class NavbarComponent implements OnInit {
 
   userRole!: string;
+  isAuthenticated: boolean = false;
 
-  constructor(private router: Router, private authService: AuthenticationService) { }
+  constructor(private router: Router, private authService: AuthenticationService) {}
 
   ngOnInit(): void {
-    this.authService.getUserRole().subscribe(
-      (response: RoleResponse) => {
-        this.userRole = response.name;
-        console.log(`User role is ${this.userRole}`);
-        this.authService.userRole = this.userRole;
-        console.log(this.authService.userRole);
-      }
-    )
+    this.authService.getUserRole().subscribe((response: RoleResponse) => {
+      this.userRole = response.name;
+    console.log(`User role is ${this.userRole}`);
+    })
+  }
+
+  isAuthorized(roles: Array<string>): boolean {
+    return roles.includes(this.userRole);
   }
 
   goToSearch() {
-    this.userRole = this.authService.userRole;
-    console.log(this.userRole);
-    if (this.userRole === 'MANAGER') {
+    this.authService.getUserRole().subscribe((response: RoleResponse) => {
+      this.userRole = response.name;
+    console.log(`User role is ${this.userRole}`);
+    })
+    if (this.userRole != 'EMPLOYEE') {
       this.router.navigate(['/manager/search']);
     } else if (this.userRole === 'EMPLOYEE') {
       this.router.navigate(['/employee/search']);
     }
   }
-
-
-
 
 }

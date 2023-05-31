@@ -8,6 +8,14 @@ import { AuthenticationService } from 'src/app/core/auth/auth.service';
 })
 export class EmployeeDashboardComponent {
   
+  isAuthenticated: boolean = false;
+
   constructor(public authService: AuthenticationService) { }
+
+  ngOnInit() {
+    this.authService.isAuthenticated$.subscribe((isAuthenticated) => {
+      this.isAuthenticated = isAuthenticated;
+    });
+  }
 
 }

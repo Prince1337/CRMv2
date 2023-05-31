@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ClientService } from 'src/app/core/http/client.service';
+import { UserService } from 'src/app/core/http/user.service';
+import { ContractResponse } from 'src/app/shared/models/contract-response';
+import { UserResponse } from 'src/app/shared/models/user-response';
 
 @Component({
   selector: 'app-client-add',
@@ -9,12 +12,13 @@ import { ClientService } from 'src/app/core/http/client.service';
 })
 export class ClientAddComponent implements OnInit {
   clientForm!: FormGroup;
-  contactEmails!: string[];
-  usernames!: string[];
+  emails!: string[];
+  users!: UserResponse[];
 
   constructor(
     private formBuilder: FormBuilder,
-    private clientService: ClientService
+    private clientService: ClientService,
+    private userService: UserService
   ) {}
 
   ngOnInit() {
@@ -36,8 +40,8 @@ export class ClientAddComponent implements OnInit {
 
   loadContactEmails() {
     this.clientService.getContactEmails().subscribe(
-      (emails) => {
-        this.contactEmails = emails;
+      (emails : string[]) => {
+        this.emails = emails;
       },
       (error) => {
         console.error('Error loading contact emails', error.message);
@@ -46,9 +50,9 @@ export class ClientAddComponent implements OnInit {
   }
 
   loadUsernames() {
-    this.clientService.getUsernames().subscribe(
-      (usernames) => {
-        this.usernames = usernames;
+    this.userService.getUsers().subscribe(
+      (users: UserResponse[]) => {
+        this.users = users;
       },
       (error) => {
         console.error('Error loading usernames', error.message);
@@ -66,10 +70,14 @@ export class ClientAddComponent implements OnInit {
           this.clientForm.reset();
         },
         (error) => {
-          console.error('Error creating client', error.message);
+          console.error(error.message);
           // Handle the error as needed
         }
       );
     }
+    else {
+      alert("Form is not valid");
+    }
+
   }
 }

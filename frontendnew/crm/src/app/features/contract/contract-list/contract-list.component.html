@@ -1,15 +1,35 @@
-<ul>
-    <li *ngFor="let contract of contracts">
-      {{ contract.id }}
-      {{ contract.title }}
-      {{ contract.filename }}
-      {{ contract.created | date }}
-      {{ contract.accepted }}
-      {{ contract.authorName }}
-      {{ contract.clientName }}
-      {{ contract.value }}
-      <button (click)="acceptContract(contract.id)">Accept Contract</button>
-      <button (click)="printContract(contract.id)">Print PDF</button>
-    </li>
-  </ul>
-  
+<div class="container">
+  <button class="btn btn-primary" [routerLink]="['/contracts/add']">Add Contract</button>
+  <table class="crm-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Filename</th>
+        <th>Created</th>
+        <th>Accepted</th>
+        <th>Author Name</th>
+        <th>Client Name</th>
+        <th>Value</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let contract of contracts" [routerLink]="['/contracts/details', contract.id]">
+        <td>{{ contract.id }}</td>
+        <td>{{ contract.title }}</td>
+        <td>{{ contract.filename }}</td>
+        <td>{{ contract.created | date }}</td>
+        <td>{{ contract.accepted }}</td>
+        <td>{{ contract.authorName }}</td>
+        <td>{{ contract.clientName }}</td>
+        <td>{{ contract.value | currency:'EUR' }}</td>
+        <td>
+          <button (click)="acceptContract(contract.id)">Accept</button>
+          <button (click)="printContract(contract.id)">Print</button>
+          <button>Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

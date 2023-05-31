@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/core/auth/auth.service';
 
 @Component({
@@ -15,7 +16,8 @@ export class AdminRegisterComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -47,6 +49,7 @@ export class AdminRegisterComponent implements OnInit {
         // Handle successful registration
         console.log(response);
         console.log('Registration successful');
+        this.router.navigate(['/users']);
       },
       (error) => {
         // Handle registration error

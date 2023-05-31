@@ -28,6 +28,9 @@ import { EventFormComponent } from './features/event/event-form/event-form.compo
 import { EventListComponent } from './features/event/event-list/event-list.component';
 import { EventEditComponent } from './features/event/event-edit/event-edit.component';
 import { NotificationComponent } from './features/notifications/notification/notification.component';
+import { HomeComponent } from './features/home/home/home.component';
+import { ClientDetailsComponent } from './features/client/client-details/client-details.component';
+import { ContractDetailsComponent } from './features/contract/contract-details/contract-details.component';
 
 
 @NgModule({
@@ -54,7 +57,10 @@ import { NotificationComponent } from './features/notifications/notification/not
     EventFormComponent,
     EventListComponent,
     EventEditComponent,
-    NotificationComponent
+    NotificationComponent,
+    HomeComponent,
+    ClientDetailsComponent,
+    ContractDetailsComponent
   ],
   imports: [
     BrowserModule,

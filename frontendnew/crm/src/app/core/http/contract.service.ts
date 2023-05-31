@@ -32,6 +32,13 @@ export class ContractService {
     return this.http.get<ContractResponse[]>(this.adminUrl, {headers: headers});
   }
 
+  getContractById(id: number): Observable<ContractResponse> {
+    const url = `${this.apiUrl}/${id}`;
+    const headers = this.getAuthentication();
+
+    return this.http.get<ContractResponse>(url, { headers: headers });
+  }
+
   acceptContract(contractId: number): Observable<void> {
     const url = `${this.apiUrl}/${contractId}/accept`;
     const headers = this.getAuthentication();

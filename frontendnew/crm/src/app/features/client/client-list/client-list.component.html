@@ -1,35 +1,27 @@
-<table>
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Vorname</th>
-      <th>Nachname</th>
-      <th>Straße</th>
-      <th>PLZ</th>
-      <th>Stadt</th>
-      <th>Region</th>
-      <th>Staat</th>
-      <th>Kontakt</th>
-      <th>Benutzername</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let client of clients">
-      <td>{{ client.id }}</td>
-      <td>{{ client.firstName }}</td>
-      <td>{{ client.lastName }}</td>
-      <td>{{ client.street }}</td>
-      <td>{{ client.postcode }}</td>
-      <td>{{ client.city }}</td>
-      <td>{{ client.region }}</td>
-      <td>{{ client.country }}</td>
-      <td>{{ client.contactEmail }}</td>
-      <td>{{ client.username }}</td>
-      <td>
-        <button (click)="editClient(client.id)">Bearbeiten</button>
-        <button (click)="deleteClient(client.id)">Löschen</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="container">
+  <button class="btn btn-primary" [routerLink]="['/clients/add']">Add Client</button>
+  <table class="crm-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Vorname</th>
+        <th>Nachname</th>
+        <th>Straße</th>
+        <th>PLZ</th>
+        <th>Stadt</th>
+        <th>User</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let client of clients" [routerLink]="['/clients/details', client.id]">
+        <td>{{ client.id }}</td>
+        <td>{{ client.firstName }}</td>
+        <td>{{ client.lastName }}</td>
+        <td>{{ client.street }}</td>
+        <td>{{ client.postcode }}</td>
+        <td>{{ client.city }}</td>
+        <td>{{ client.username }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

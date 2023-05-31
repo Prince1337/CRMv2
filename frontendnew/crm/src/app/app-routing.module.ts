@@ -21,104 +21,137 @@ import { EventListComponent } from './features/event/event-list/event-list.compo
 import { EventFormComponent } from './features/event/event-form/event-form.component';
 import { EventEditComponent } from './features/event/event-edit/event-edit.component';
 import { NotificationComponent } from './features/notifications/notification/notification.component';
+import { HomeComponent } from './features/home/home/home.component';
+import { ClientDetailsComponent } from './features/client/client-details/client-details.component';
+import { ContractDetailsComponent } from './features/contract/contract-details/contract-details.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { 
-    path: 'admin-dashboard', 
-    component: AdminDashboardComponent, 
-    canActivate: [AuthGuard],
+  { path: '', component: HomeComponent, canActivate: [AuthGuard], data: { roles: ['ADMIN', 'MANAGER', 'OWNER', 'EMPLOYEE']},
+    children: [
+      { 
+        path: 'admin-dashboard', 
+        component: AdminDashboardComponent, 
+        canActivate: [AuthGuard],
+        data: { roles: ['ADMIN']}
+      },
+      { 
+        path: 'manager-dashboard', 
+        component: ManagerDashboardComponent, 
+        canActivate: [AuthGuard],
+        data: { roles: ['MANAGER']}
+      },
+      {
+        path: 'owner-dashboard',
+        component: OwnerDashboardComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['OWNER']}
+      },
+      {
+        path: 'employee-dashboard',
+        component: EmployeeDashboardComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['EMPLOYEE']}
+      },
+      {
+        path: 'clients',
+        component: ClientListComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['ADMIN', 'OWNER']}
+      },
+      {
+        path: 'clients/add',
+        component: ClientAddComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['ADMIN', 'OWNER']}
+      },
+      {
+        path: 'clients/details/:id',
+        component: ClientDetailsComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['ADMIN', 'OWNER']}
+      },
+      {
+        path: 'clients/edit/:id',
+        component: ClientEditComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['ADMIN', 'OWNER']}
+      },
+      {
+        path: 'users/add',
+        canActivate: [AuthGuard],
+        component: AdminRegisterComponent,
+        data: { roles: ['ADMIN', 'OWNER']}
+      },
+      {
+        path: 'users/edit/:id',
+        component: AdminEditComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['ADMIN', 'OWNER']}
+      },
+      {
+        path: 'users/details/:id',
+        component: AdminDetailsComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['ADMIN', 'OWNER']}
+      },
+      {
+        path: 'users',
+        component: AdminListComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['ADMIN', 'OWNER']}
+      },
+      {
+        path: 'contracts/add',
+        component: ContractAddComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'contracts/details/:id',
+        component: ContractDetailsComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'contracts',
+        component: ContractListComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'manager/search',
+        component: ManagerSearchComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['MANAGER', 'OWNER', 'ADMIN']}
+      },
+      {
+        path: 'employee/search',
+        component: EmployeeSearchComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['MANAGER', 'OWNER', 'EMPLOYEE']}
+      },
+      {
+        path: 'events',
+        component: EventListComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'events/add',
+        component: EventFormComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'events/:id',
+        component: EventEditComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'notifications',
+        component: NotificationComponent,
+        canActivate: [AuthGuard],
+      },
+      { path: '**', redirectTo: 'dashboard' }, // wenn eine ungültige URL aufgerufen wird
+    ]
   },
-  { 
-    path: 'manager-dashboard', 
-    component: ManagerDashboardComponent, 
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'owner-dashboard',
-    component: OwnerDashboardComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'employee-dashboard',
-    component: EmployeeDashboardComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'clients',
-    component: ClientListComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'clients/add',
-    component: ClientAddComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'clients/edit/:id',
-    component: ClientEditComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'users/add',
-    component: AdminRegisterComponent
-  },
-  {
-    path: 'users/edit/:id',
-    component: AdminEditComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'users/details/:id',
-    component: AdminDetailsComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'users',
-    component: AdminListComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'contracts/add',
-    component: ContractAddComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'contracts',
-    component: ContractListComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'manager/search',
-    component: ManagerSearchComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'employee/search',
-    component: EmployeeSearchComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'events',
-    component: EventListComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'events/add',
-    component: EventFormComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'events/:id',
-    component: EventEditComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'notifications',
-    component: NotificationComponent,
-    canActivate: [AuthGuard],
-  },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: '**', redirectTo: 'dashboard' }, // wenn eine ungültige URL aufgerufen wird
 ];
 

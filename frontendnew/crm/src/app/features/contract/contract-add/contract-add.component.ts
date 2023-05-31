@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { ClientService } from 'src/app/core/http/client.service';
 import { ContractService } from 'src/app/core/http/contract.service';
+import { ClientResponse } from 'src/app/shared/models/client-response';
 import { ContractRequest } from 'src/app/shared/models/contract-request';
 
 @Component({
@@ -11,14 +13,28 @@ import { ContractRequest } from 'src/app/shared/models/contract-request';
 export class ContractAddComponent {
 
   contractForm!: FormGroup;
+  clients!: ClientResponse[];
 
-  constructor(private formBuilder: FormBuilder, private contractService: ContractService) { }
+  constructor(private formBuilder: FormBuilder, private contractService: ContractService, private clientService: ClientService) { }
 
   ngOnInit(): void {
     this.contractForm = this.formBuilder.group({
       clientId: [''],
       value: ['']
     });
+
+    this.loadClients();
+  }
+
+  loadClients() {
+    this.clientService.getAllClients().subscribe(
+      (clients: ClientResponse[]) => {
+        this.clients = clients;
+      },
+      (error) => {
+        console.error('Error loading clients', error.message);
+      }
+    );
   }
 
   onSubmit(): void {

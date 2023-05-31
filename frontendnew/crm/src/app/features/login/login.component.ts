@@ -14,7 +14,7 @@ export class LoginComponent {
   username!: string;
   password!: string;
 
-  constructor(private authService: AuthenticationService, private router: Router) {}
+  constructor(private authService: AuthenticationService, private router: Router) { }
 
   login() {
     const authenticationRequest: AuthenticationRequest = {
@@ -23,12 +23,14 @@ export class LoginComponent {
     }
     this.authService.login(authenticationRequest).subscribe(
       (response: AuthenticationResponse) => {
-        const accessToken = response.access_token;
-        const refreshToken = response.refresh_token;
-        localStorage.setItem('access_token', accessToken);
-        localStorage.setItem('refresh_token', refreshToken);
-        this.goToDashboard();
-        console.log(response);
+        localStorage.setItem('access_token', response.access_token);
+        localStorage.setItem('refresh_token', response.refresh_token);
+        this.authService.getUserRole().subscribe((response: RoleResponse) => {
+          this.authService.userRole = response.name;
+          console.log(`User role is ${this.authService.userRole}`);
+          this.goToDashboard();
+        });
+      console.log(response);
       },
       (error) => {
         alert("Invalid username or password");
@@ -38,27 +40,19 @@ export class LoginComponent {
   }
 
   public goToDashboard(): void {
-    this.authService.getUserRole().subscribe((response: RoleResponse) => {
-      const userRole = response.name;
-      console.log(`User role is ${userRole}`);
-      this.authService.userRole = userRole;
-      console.log(this.authService.userRole);
-      if (userRole === 'ADMIN') {
-        this.router.navigate(['/admin-dashboard']);
-      } else if (userRole === 'MANAGER') {
-        this.router.navigate(['/manager-dashboard']);
-      } else if (userRole === 'OWNER') {
-        this.router.navigate(['/owner-dashboard']);
-      } else if (userRole === 'EMPLOYEE') {
-        this.router.navigate(['/employee-dashboard']);
-      } else {
-        console.log('no role');
-      }
-    }, error => {
-      console.error(`error: ${error.message}`);
-    });
-    
-    
+    const userRole = this.authService.userRole;
+    console.log(`goToDashboard userRole is ` + this.authService.userRole);
+    if (userRole === 'ADMIN') {
+      this.router.navigate(['/admin-dashboard']);
+    } else if (userRole === 'MANAGER') {
+      this.router.navigate(['/manager-dashboard']);
+    } else if (userRole === 'OWNER') {
+      this.router.navigate(['/owner-dashboard']);
+    } else if (userRole === 'EMPLOYEE') {
+      this.router.navigate(['/employee-dashboard']);
+    } else {
+      console.log('no role');
+    }
   };
 }
 

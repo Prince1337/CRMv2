@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { AuthenticationRequest } from 'src/app/shared/models/authentication-request';
 import { RegisterRequest } from 'src/app/shared/models/register-request';
+import { NavbarComponent } from 'src/app/shared/components/navbar/navbar.component';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,8 @@ export class AuthenticationService {
 
   authUrl = 'https://localhost:8443/auth';
   roleUrl = 'https://localhost:8443/role';
-  private isLoggedInVar: boolean = false;
+  private isLoggedInVar = new BehaviorSubject<boolean>(false);
+
   authenticationRequest!: AuthenticationRequest;
 
   constructor(private http: HttpClient) { }
@@ -34,12 +36,12 @@ export class AuthenticationService {
   }
 
   login(authenticationRequest: AuthenticationRequest): Observable<AuthenticationResponse> {
-    this.isLoggedInVar = true;
+    this.isLoggedInVar.next(true);
     return this.http.post<AuthenticationResponse>(this.authUrl + '/authenticate', authenticationRequest)
   }
 
   logout(): void {
-    this.isLoggedInVar = false;
+    this.isLoggedInVar.next(false);
     this.http.post(this.authUrl + '/logout', {}).subscribe(() => {
       // Optional: Führe hier weitere Aktionen nach dem erfolgreichen Logout aus
       localStorage.removeItem('access_token');
@@ -50,18 +52,19 @@ export class AuthenticationService {
     });
   }
 
-  public getUserRole(): Observable<RoleResponse> {
+  getUserRole(): Observable<RoleResponse> {
     const token = localStorage.getItem('access_token');
     const headers = new HttpHeaders().set('Authorization', 'Bearer ' + token);
 
     return this.http.get<RoleResponse>(this.roleUrl + '/getUserRole', { headers });
   }
 
-  public isLoggedIn(): boolean {
-    this.isLoggedInVar = true;
-    return this.isLoggedInVar;
+  get isAuthenticated$() {
+    if(localStorage.getItem('access_token')) {
+      this.isLoggedInVar.next(true);
+    }
+    return this.isLoggedInVar.asObservable();
   }
-
 
 }
 

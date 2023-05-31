@@ -14,7 +14,7 @@ export class ClientService {
 
   constructor(private http: HttpClient) { }
 
-  getAllClients(): Observable<any> {
+  getAllClients(): Observable<ClientResponse[]> {
     const headers = this.getAuthentication();
 
     return this.http.get<[]>(`${this.baseUrl}/clients`, { headers: headers });

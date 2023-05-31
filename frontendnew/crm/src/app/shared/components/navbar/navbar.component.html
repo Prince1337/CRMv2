@@ -1,12 +1,19 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark">
-  <div class="collapse navbar-collapse">
-  <ul>
-    <li *ngIf="userRole === 'ADMIN' || userRole === 'OWNER'"><a routerLink="/users">User</a></li>
-    <li *ngIf="userRole === 'ADMIN' || userRole === 'OWNER'"><a routerLink="/clients/add">Clients</a></li>
-    <li><a routerLink="/contracts">Contracts</a></li>
-    <li *ngIf="userRole === 'MANAGER' || userRole === 'EMPLOYEE' || userRole === 'OWNER'"><a (click)="goToSearch()">Search</a></li>
-    <li><a routerLink="/events">Events</a></li>
+<div class="sidebar">
+  <ul class="menu">
+    <li *ngIf="isAuthorized(['OWNER', 'ADMIN'])">
+      <a class="menu-link" routerLink="/users">User</a>
+    </li>
+    <li *ngIf="isAuthorized(['OWNER', 'ADMIN'])">
+      <a class="menu-link" routerLink="/clients">Clients</a>
+    </li>
+    <li *ngIf="isAuthorized(['EMPLOYEE', 'MANAGER', 'OWNER', 'ADMIN'])">
+      <a class="menu-link" routerLink="/contracts">Contracts</a>
+    </li>
+    <li *ngIf="isAuthorized(['EMPLOYEE', 'MANAGER', 'OWNER', 'ADMIN'])">
+      <a class="menu-link" (click)="goToSearch()">Search</a>
+    </li>
+    <li *ngIf="isAuthorized(['EMPLOYEE', 'MANAGER', 'OWNER', 'ADMIN'])">
+      <a class="menu-link" routerLink="/events">Events</a>
+    </li>
   </ul>
-  </div>
-</nav>
-
+</div>

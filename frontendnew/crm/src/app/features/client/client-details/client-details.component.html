@@ -1,0 +1,27 @@
+<div class="container">
+  <h2 *ngIf="client">
+    {{ client.firstName + " " + client.lastName }}
+  </h2>
+
+  <div *ngIf="client">
+    <p><strong>ID</strong> {{ client.id }}</p>
+    <p><strong>Username</strong> {{ client.username }}</p>
+    <p><strong>First Name</strong> {{ client.firstName }}</p>
+    <p><strong>Last Name</strong> {{ client.lastName }}</p>
+    <p><strong>Street</strong> {{ client.street }}</p>
+    <p><strong>Postcode</strong> {{ client.postcode }}</p>
+    <p><strong>City</strong> {{ client.city }}</p>
+    <p><strong>Region</strong> {{ client.region }}</p>
+    <p><strong>Country</strong> {{ client.country }}</p>
+    <p><strong>Contact Firstname</strong> {{ client.contactFirstname }}</p>
+    <p><strong>Contact Lastname</strong> {{ client.contactLastname }}</p>
+    <p><strong>Contact Email</strong> {{ client.contactEmail }}</p>
+    <p><strong>Contact Phone</strong> {{ client.contactPhone }}</p>
+        <i class="fa-solid fa-pen-to-square" (click)="editClient(client.id)"></i> 
+        <i class="fa-solid fa-trash"(click)="deleteClient(client.id)"></i>
+  </div>
+
+  <div *ngIf="!client">
+    <p>Loading client details...</p>
+  </div>
+</div>

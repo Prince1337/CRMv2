@@ -8,8 +8,5 @@ import { AuthenticationService } from './core/auth/auth.service';
 })
 export class AppComponent {
 
-  constructor (public authService: AuthenticationService) {
-    
-  }
   title = 'crm';
 }
