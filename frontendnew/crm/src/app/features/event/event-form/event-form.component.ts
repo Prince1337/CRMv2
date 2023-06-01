@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ClientService } from 'src/app/core/http/client.service';
 import { EventService } from 'src/app/core/http/event.service';
+import { ClientResponse } from 'src/app/shared/models/client-response';
 
 @Component({
   selector: 'app-event-form',
@@ -10,8 +12,10 @@ import { EventService } from 'src/app/core/http/event.service';
 })
 export class EventFormComponent {
   eventForm!: FormGroup;
+  clients!: ClientResponse[];
 
-  constructor(private formBuilder: FormBuilder, private eventService: EventService, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private eventService: EventService, private router: Router,
+    private clientService: ClientService) { }
 
   ngOnInit() {
     this.eventForm = this.formBuilder.group({
@@ -20,6 +24,18 @@ export class EventFormComponent {
       clientId: ['', Validators.required],
       time: ['', Validators.required]
     });
+    this.loadClients();
+  }
+
+  loadClients() {
+    this.clientService.getAllClients().subscribe(
+      (clients: ClientResponse[]) => {
+        this.clients = clients;
+      },
+      (error) => {
+        console.error('Error loading clients', error.message);
+      }
+    );
   }
 
   onSubmit() {

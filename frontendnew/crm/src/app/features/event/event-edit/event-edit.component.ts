@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ClientService } from 'src/app/core/http/client.service';
 import { EventService } from 'src/app/core/http/event.service';
+import { ClientResponse } from 'src/app/shared/models/client-response';
 import { EventResponse } from 'src/app/shared/models/event-response';
 
 @Component({
@@ -14,18 +16,21 @@ export class EventEditComponent {
   eventId!: number;
   eventForm!: FormGroup;
   event!: EventResponse;
+  clients!: ClientResponse[];
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private formBuilder: FormBuilder,
-    private eventService: EventService
+    private eventService: EventService,
+    private clientService: ClientService
   ) { }
 
   ngOnInit(): void {
     this.eventId = this.route.snapshot.params['id'];
     this.initializeForm();
     this.getEventById();
+    this.loadClients();
   }
 
   initializeForm(): void {
@@ -44,11 +49,23 @@ export class EventEditComponent {
         this.eventForm.patchValue({
           type: this.event.type,
           title: this.event.title,
+          clientId: this.event.clientName,
           time: this.event.time
         });
       },
       (error: any) => {
         console.log(error);
+      }
+    );
+  }
+
+  loadClients() {
+    this.clientService.getAllClients().subscribe(
+      (clients: ClientResponse[]) => {
+        this.clients = clients;
+      },
+      (error) => {
+        console.error('Error loading clients', error.message);
       }
     );
   }
