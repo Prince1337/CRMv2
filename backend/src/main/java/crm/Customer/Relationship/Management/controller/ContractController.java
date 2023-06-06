@@ -34,6 +34,19 @@ public class ContractController {
         return ResponseEntity.ok(contractResponse);
     }
 
+    @GetMapping("/admin")
+    public ResponseEntity<List<ContractResponse>> getAllContractsAdmin() {
+        List<ContractResponse> contractResponse = contractService.getAllContracts();
+        return ResponseEntity.ok(contractResponse);
+    }
+
+    @GetMapping("/{contractId}")
+    public ResponseEntity<ContractResponse> getContractById(@PathVariable Long contractId) {
+        String currentUsername = authenticationFacade.getAuthenticatedUser().getUsername();
+        ContractResponse contractResponse = contractService.getContractById(contractId, currentUsername);
+        return ResponseEntity.ok(contractResponse);
+    }
+
     @PutMapping("/{contractId}/accept")
     public void acceptContract(@PathVariable Long contractId) throws AccessDeniedException {
         String currentUsername = authenticationFacade.getAuthenticatedUser().getUsername();

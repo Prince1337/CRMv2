@@ -27,12 +27,9 @@ public class EmployeeSearchController {
     // CITY SEARCH
     @GetMapping("/city")
     public List<ClientResponse> searchClientsByCity(@RequestParam("city") String city) {
-        return clientService.searchClientsByCity(city);
+        String currentUsername = authenticationFacade.getAuthenticatedUser().getUsername();
+        return clientService.searchClientsByCity(city, currentUsername);
     }
 
-    @GetMapping("/name")
-    public List<ClientResponse> searchClientsByName(@RequestParam("name") String name) {
-        String currentUserCity = authenticationFacade.getAuthenticatedUser().getOffice().getAddress().getCity();
-        return clientService.findByClientNameAndCity(name, currentUserCity);
-    }
+
 }

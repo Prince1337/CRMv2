@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
+import { AuthenticationService } from 'src/app/core/auth/auth.service';
 import { ContractService } from 'src/app/core/http/contract.service';
 import { ContractResponse } from 'src/app/shared/models/contract-response';
+import { RoleResponse } from 'src/app/shared/models/role-response';
 
 @Component({
   selector: 'app-contract-list',
@@ -9,30 +11,48 @@ import { ContractResponse } from 'src/app/shared/models/contract-response';
 })
 export class ContractListComponent {
   contracts!: ContractResponse[];
+  userRole!: string;
 
-  constructor(private contractService: ContractService) { }
+  constructor(private contractService: ContractService, private authService: AuthenticationService) { }
 
   ngOnInit(): void {
     this.getAllContracts();
   }
 
   getAllContracts(): void {
-    this.contractService.getAllContracts()
-      .subscribe((contracts) => {
-        this.contracts = contracts;
+    this.authService.getUserRole().subscribe((response: RoleResponse) => {
+      this.userRole = response.name;
+      if (this.userRole === 'EMPLOYEE') {
+        this.contractService.getAllContracts()
+          .subscribe((contracts) => {
+            this.contracts = contracts;
+          }, (error) => {
+            console.error(error.message);
+          });
+        }
+        else {
+          this.contractService.getAllContractsAdmin()
+            .subscribe((contracts) => {
+              this.contracts = contracts;
+            }, (error) => {
+              console.error(error.message);
+            });
+        }
+    })
+  }
+
+  acceptContract(contractId: number): void {
+    this.contractService.acceptContract(contractId)
+      .subscribe(() => {
+        console.log('Contract accepted successfully');
+        this.ngOnInit();
       }, (error) => {
         console.error(error.message);
       });
   }
 
-  acceptContract(): void {
-    const contractId = 252;
-    this.contractService.acceptContract(contractId)
-      .subscribe(() => {
-        console.log('Contract accepted successfully');
-      }, (error) => {
-        console.error(error.message);
-      });
+  printContract(contractId: number): void {
+    
   }
 
 }

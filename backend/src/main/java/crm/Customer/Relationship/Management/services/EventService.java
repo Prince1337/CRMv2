@@ -9,6 +9,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 
 import java.nio.file.AccessDeniedException;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public interface EventService {
     EventResponse addEvent(EventRequest eventRequest, String currentUsername);
@@ -26,4 +27,7 @@ public interface EventService {
     void generateMorningNotifications();
 
 
+    List<EventResponse> getAllEvents(String currentUsername);
+
+    EventResponse getEventById(Long eventId, String currentUsername);
 }

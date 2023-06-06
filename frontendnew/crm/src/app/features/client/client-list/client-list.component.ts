@@ -15,21 +15,12 @@ export class ClientListComponent {
   constructor(private clientService: ClientService, private router: Router) { }
 
   ngOnInit(): void {
-    this.clientService.getAllClients().subscribe(clients => {
+    this.clientService.managerGetAllClients().subscribe(clients => {
       console.log(clients);
       this.clients = clients;
     });
   }
 
-  editClient(clientId: number): void {
-    this.router.navigate(['/clients/edit', clientId]);
-  }
-
-  deleteClient(clientId: number): void {
-     this.clientService.deleteClient(clientId).subscribe(() => {
-        this.clients = this.clients.filter(client => client.id !== clientId);
-     });
-  }
-
+  
 }
 

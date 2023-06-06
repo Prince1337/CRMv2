@@ -3,6 +3,9 @@ services:
 
       mysql:
         container_name: mysql
+        build:
+          context: ./mysql
+          dockerfile: Dockerfile
         image: mysql:latest
         ports:
           - "3308:3306"
@@ -20,7 +23,9 @@ services:
         
       backend:
         container_name: Customer-Relationship-Management-0.0.2-SNAPSHOT
-        build: .
+        build:
+          context: ./backend
+          dockerfile: Dockerfile
         ports:
           - "8443:8443"
         depends_on:
@@ -37,6 +42,21 @@ services:
         volumes:
           - .:/app
           - gradle-cache:/home/gradle/.gradle
+          
+      frontend:
+        container_name: frontend
+        build:
+          context: ./frontendnew/crm
+          dockerfile: Dockerfile
+        ports:
+          - "4200:4200"
+        volumes:
+            - ./frontendnew/crm:/frontendnew
+        environment:
+            - NODE_ENV=dev
+        networks:
+          - crm-network
+        command: ng serve --host 0.0.0.0
 
 
 networks:

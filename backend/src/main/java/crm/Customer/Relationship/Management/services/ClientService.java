@@ -20,7 +20,7 @@ public interface ClientService {
 
     void deleteClient(Long id);
 
-    List<ClientResponse> searchClientsByCity(String city);
+    List<ClientResponse> searchClientsByCity(String city, String username);
     
     List<ClientResponse> findByUser(String currentUsername);
 
@@ -30,6 +30,6 @@ public interface ClientService {
 
     List<ClientResponse> findByAddressRegion(String region);
 
-    List<ClientResponse> findByName(String name);
+    List<ClientResponse> findByLastName(String name);
 }
 

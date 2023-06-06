@@ -12,4 +12,8 @@ public interface ContractService {
     void acceptContract(Long contractId, String currentUsername) throws AccessDeniedException;
 
     List<ContractResponse> getAllContracts(String currentUsername);
+
+    ContractResponse getContractById(Long contractId, String currentUsername);
+
+    List<ContractResponse> getAllContracts();
 }

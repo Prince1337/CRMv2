@@ -1,0 +1,21 @@
+<div class="container">
+  <h2 *ngIf="contract">
+    {{ contract.title }}
+  </h2>
+
+  <div *ngIf="contract">
+    <p><strong>ID</strong> {{ contract.id }}</p>
+    <p><strong>Title</strong> {{ contract.title }}</p>
+    <p><strong>Filename</strong> {{ contract.filename }}</p>
+    <p><strong>Created</strong> {{ contract.created | date }}</p>
+    <p><strong>Accepted</strong> {{ contract.accepted }}</p>
+    <p><strong>Author Name</strong> {{ contract.authorName }}</p>
+    <p><strong>Client Name</strong> {{ contract.clientName }}</p>
+    <p><strong>Value</strong> {{ contract.value | currency : "EUR" }}</p>
+    <button [routerLink]="['/contracts/edit', contract.id]">Edit</button>
+  </div>
+
+  <div *ngIf="!contract">
+    <p>Loading contract details...</p>
+  </div>
+</div>

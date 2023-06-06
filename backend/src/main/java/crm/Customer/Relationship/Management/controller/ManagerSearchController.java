@@ -38,15 +38,14 @@ public class ManagerSearchController {
     @GetMapping(path = "/region")
     public ResponseEntity<List<ClientResponse>> regionSearch(@RequestParam String region) {
         User user = authenticationFacade.getAuthenticatedUser();
-        clientResponses = clientService
-                .findByAddressRegion(user.getOffice().getAddress().getRegion());
+        clientResponses = clientService.findByAddressRegion(region);
         return ResponseEntity.ok(clientResponses);
     }
 
     // NAME SEARCH
     @GetMapping(path = "/name")
     public ResponseEntity<List<ClientResponse>> nameSearch(@RequestParam String name) {
-        clientResponses = clientService.findByName(name);
+        clientResponses = clientService.findByLastName(name);
         return ResponseEntity.ok(clientResponses);
     }
 }

@@ -13,10 +13,16 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class EventResponse {
 
+    private Long id;
+
     private String type;
 
     private String title;
 
     private LocalDateTime time;
+
+    private String clientName;
+
+    private String authorName;
 
 }

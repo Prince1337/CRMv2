@@ -1,8 +1,10 @@
 package crm.Customer.Relationship.Management.controller;
 
 import crm.Customer.Relationship.Management.domain.User;
+import crm.Customer.Relationship.Management.dto.RegisterRequest;
 import crm.Customer.Relationship.Management.dto.UserDetailsResponse;
 import crm.Customer.Relationship.Management.dto.UserResponse;
+import crm.Customer.Relationship.Management.services.AuthenticationService;
 import crm.Customer.Relationship.Management.services.UserDetailsServiceImplementation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,7 @@ import java.util.List;
 public class UserController {
 
     private final UserDetailsServiceImplementation userDetailsService;
+    private final AuthenticationService authenticationService;
 
     @GetMapping
     public List<String> getAllUsernames() {
@@ -30,10 +33,14 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+    @PutMapping("/admin/user/{id}")
+    public ResponseEntity<UserResponse> updateUser(@PathVariable Long id, @RequestBody RegisterRequest updatedUser) {
+        return ResponseEntity.ok(authenticationService.updateUser(updatedUser));
+    }
+
     @GetMapping("/admin/users")
     public ResponseEntity<List<UserResponse>> getUser() {
         List<UserResponse> userResponses = userDetailsService.getUsers();
-        System.out.println(userResponses);
         return ResponseEntity.ok(userResponses);
 
     }

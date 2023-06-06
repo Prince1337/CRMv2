@@ -7,6 +7,7 @@ import crm.Customer.Relationship.Management.domain.User;
 import crm.Customer.Relationship.Management.dto.EventRequest;
 import crm.Customer.Relationship.Management.dto.EventResponse;
 import crm.Customer.Relationship.Management.dto.NotificationRequest;
+import crm.Customer.Relationship.Management.services.EventService;
 import crm.Customer.Relationship.Management.services.EventServiceImplementation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.file.AccessDeniedException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/events")
@@ -24,8 +26,22 @@ import java.nio.file.AccessDeniedException;
 @CrossOrigin(originPatterns = "http://localhost:4200")
 public class EventController {
 
-    private final EventServiceImplementation eventService;
+    private final EventService eventService;
     private final AuthenticationFacade authenticationFacade;
+
+    @GetMapping
+    public ResponseEntity<List<EventResponse>> getAllEvents() {
+        String currentUsername = authenticationFacade.getAuthenticatedUser().getUsername();
+        List<EventResponse> eventResponse = eventService.getAllEvents(currentUsername);
+        return ResponseEntity.ok(eventResponse);
+    }
+
+    @GetMapping("/{eventId}")
+    public ResponseEntity<EventResponse> getEventById(@PathVariable Long eventId) {
+        String currentUsername = authenticationFacade.getAuthenticatedUser().getUsername();
+        EventResponse eventResponse = eventService.getEventById(eventId, currentUsername);
+        return ResponseEntity.ok(eventResponse);
+    }
 
     @PostMapping
     public ResponseEntity<EventResponse> addEvent(@RequestBody EventRequest eventRequest) {

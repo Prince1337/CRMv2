@@ -1,0 +1,26 @@
+<div class="container">
+  <h2>Event List</h2>
+  <button routerLink="/events/add">Add Event</button>
+  <table class="crm-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Type</th>
+        <th>Title</th>
+        <th>Time</th>
+        <th>Client Name</th>
+        <th>Author Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let event of events" routerLink="/events/{{ event.id }}">
+        <td>{{ event.id }}</td>
+        <td>{{ event.type }}</td>
+        <td>{{ event.title }}</td>
+        <td>{{ event.time | date }}</td>
+        <td>{{ event.clientName }}</td>
+        <td>{{ event.authorName }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

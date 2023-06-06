@@ -1,0 +1,16 @@
+<h2 *ngIf="user">
+  {{ user.firstname + " " + user.lastname }}
+</h2>
+
+<div *ngIf="user">
+  <p><strong>ID</strong> {{ user.id }}</p>
+  <p><strong>Username</strong> {{ user.username }}</p>
+
+  <p><strong>Email</strong> {{ user.email }}</p>
+  <p *ngFor="let role of user.roles"><strong>Role</strong>{{' ' + role }}</p>
+  <button [routerLink]="['/users/edit', user.id]">Edit</button>
+</div>
+
+<div *ngIf="!user">
+  <p>Loading user details...</p>
+</div>

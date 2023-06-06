@@ -11,8 +11,9 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
 
     Role getRoleByName(String admin);
 
-
     Set<Role> getRolesByNameIsIn(Set<String> roles);
 
     Role findByName(String role);
+
+    Double getMaxContractValueByName(String role);
 }

@@ -10,6 +10,7 @@ import { ContractResponse } from 'src/app/shared/models/contract-response';
 export class ContractService {
 
   private apiUrl = 'https://localhost:8443/contracts';
+  private adminUrl = 'https://localhost:8443/contracts/admin';
 
   constructor(private http: HttpClient) { }
 
@@ -23,6 +24,19 @@ export class ContractService {
     const headers = this.getAuthentication();
 
     return this.http.get<ContractResponse[]>(this.apiUrl, {headers: headers});
+  }
+
+  getAllContractsAdmin(): Observable<ContractResponse[]> {
+    const headers = this.getAuthentication();
+
+    return this.http.get<ContractResponse[]>(this.adminUrl, {headers: headers});
+  }
+
+  getContractById(id: number): Observable<ContractResponse> {
+    const url = `${this.apiUrl}/${id}`;
+    const headers = this.getAuthentication();
+
+    return this.http.get<ContractResponse>(url, { headers: headers });
   }
 
   acceptContract(contractId: number): Observable<void> {

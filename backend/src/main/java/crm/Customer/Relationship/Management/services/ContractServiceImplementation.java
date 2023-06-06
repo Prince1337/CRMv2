@@ -64,15 +64,15 @@ public class ContractServiceImplementation implements ContractService {
         Contract contract = contractRepository.findById(contractId)
                 .orElseThrow(() -> new EntityNotFoundException("Contract not found"));
         User currentUser = userRepository.findByUsername(currentUsername);
-        if (currentUser.getRoles().contains(roleRepository.getRoleByName("ADMIN"))) {
+        if (currentUser.getRoles().contains(roleRepository.getRoleByName("ADMIN")) || currentUser.getRoles().contains(roleRepository.getRoleByName("OWNER"))) {
             contract.setAccepted(true);
             contract.setAcceptedBy(currentUser);
             contractRepository.save(contract);
-        } else if (currentUser.getRoles().contains(roleRepository.getRoleByName("MANAGER")) && contract.getValue() <= 10000) {
+        } else if (currentUser.getRoles().contains(roleRepository.getRoleByName("MANAGER")) && contract.getValue() <= roleRepository.getMaxContractValueByName("MANAGER")) {
             contract.setAccepted(true);
             contract.setAcceptedBy(currentUser);
             contractRepository.save(contract);
-        } else if (currentUser.getRoles().contains(roleRepository.getRoleByName("EMPLOYEE")) && contract.getValue() <= 1000) {
+        } else if (currentUser.getRoles().contains(roleRepository.getRoleByName("EMPLOYEE")) && contract.getValue() <= roleRepository.getMaxContractValueByName("Employee")) {
             contract.setAccepted(true);
             contract.setAcceptedBy(currentUser);
             contractRepository.save(contract);
@@ -84,6 +84,23 @@ public class ContractServiceImplementation implements ContractService {
     @Override
     public List<ContractResponse> getAllContracts(String currentUsername) {
         List<Contract> contracts = contractRepository.findByAuthorUsername(currentUsername);
+        List<ContractResponse> contractResponses = new ArrayList<>();
+        for(Contract contract : contracts) {
+            contractResponses.add(entityToResponse(contract));
+        }
+        return contractResponses;
+    }
+
+    @Override
+    public ContractResponse getContractById(Long contractId, String currentUsername) {
+        Contract contract = contractRepository.findById(contractId)
+                .orElseThrow(() -> new EntityNotFoundException("Contract not found"));
+        return entityToResponse(contract);
+    }
+
+    @Override
+    public List<ContractResponse> getAllContracts() {
+        List<Contract> contracts = contractRepository.findAll();
         List<ContractResponse> contractResponses = new ArrayList<>();
         for(Contract contract : contracts) {
             contractResponses.add(entityToResponse(contract));

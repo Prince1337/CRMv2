@@ -1,13 +1,10 @@
 package crm.Customer.Relationship.Management.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import crm.Customer.Relationship.Management.dto.AuthenticationRequest;
-import crm.Customer.Relationship.Management.dto.AuthenticationResponse;
-import crm.Customer.Relationship.Management.dto.RegisterRequest;
+import crm.Customer.Relationship.Management.dto.*;
 import crm.Customer.Relationship.Management.domain.Token;
 import crm.Customer.Relationship.Management.domain.TokenType;
 import crm.Customer.Relationship.Management.domain.User;
-import crm.Customer.Relationship.Management.dto.RoleResponse;
 import crm.Customer.Relationship.Management.repositories.OfficeRepository;
 import crm.Customer.Relationship.Management.repositories.RoleRepository;
 import crm.Customer.Relationship.Management.repositories.TokenRepository;
@@ -42,6 +39,8 @@ public class AuthenticationService {
     private final UserDetailsServiceImplementation userDetailsServiceImplementation;
 
     public AuthenticationResponse register(RegisterRequest request) {
+        System.out.println(request);
+        System.out.println(request.getRoles());
         User user = User.builder()
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())
@@ -81,6 +80,21 @@ public class AuthenticationService {
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
                 .build();
+    }
+
+    public UserResponse updateUser(RegisterRequest updatedUser) {
+        User existingUser = userRepository.findByUsername(updatedUser.getUsername());
+
+        existingUser.setUsername(updatedUser.getUsername());
+        existingUser.setFirstname(updatedUser.getFirstname());
+        existingUser.setLastname(updatedUser.getLastname());
+        existingUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+        existingUser.setEmail(updatedUser.getEmail());
+        existingUser.setRoles(roleRepository.getRolesByNameIsIn(updatedUser.getRoles()));
+
+        userRepository.save(existingUser);
+
+        return entityToResponse(existingUser);
     }
 
     public RoleResponse getRole(Authentication authentication) {
@@ -153,5 +167,15 @@ public class AuthenticationService {
         user.setLastname(request.getLastname());
         user.setEmail(request.getEmail());
         return userRepository.save(user);
+    }
+
+    private UserResponse entityToResponse(User user) {
+        return UserResponse.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .firstname(user.getFirstname())
+                .lastname(user.getLastname())
+                .email(user.getEmail())
+                .build();
     }
 }
