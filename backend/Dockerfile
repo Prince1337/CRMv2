@@ -2,7 +2,7 @@ FROM openjdk:17-jdk-alpine3.14
 
 WORKDIR /app/backend
 
-COPY . /app
+COPY . /app/backend
 
 RUN chmod +x ./gradlew && 	./gradlew build && ./gradlew bootJar
 
